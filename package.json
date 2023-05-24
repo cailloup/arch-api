@@ -18,6 +18,7 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
-    "@types/next": "^9.0.0"
+    "@types/next": "^9.0.0",
+    "sass": "^1.62.1"
   }
 }
