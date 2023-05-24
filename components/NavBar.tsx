@@ -2,8 +2,10 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 const options = [
-    {name:"Default", route:"/"},
-    {name:"Home", route:"/home"},
+    {name:"Mapa", route:"/"},
+    {name:"Registrar edificio", route:"/register"},
+    {name:"Panel", route:"/dashboard"},
+    {name:"tema", route:"/themes"},
   ]
 
 export default function NavBar(){

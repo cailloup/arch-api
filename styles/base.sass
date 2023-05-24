@@ -17,6 +17,7 @@ $secondary-color: #2986CC
 body
   color: $contrast-primary
   background-color: $primary-color
+  height: 100vh
 
 
 html,body 
@@ -25,11 +26,14 @@ html,body
 
 
 main 
-    position: absolute
-    display: grid
-    top: 72px
-    min-height: calc(100% - 72px)
-    width: 100%
+  position: absolute
+  top: 76px
+  background-color: transparent
+  width: 100%
+  height: calc( 100vh - 76px)
+  background-color: white
+  z-index: -1
+  
 
   
 a 
@@ -41,11 +45,14 @@ nav
   align-items: center
   flex-direction: row
   justify-content: space-around
-
+  z-index: 10
+  box-shadow: 4px 2px 20px 0px black
+  
   ul 
     li
       display: inline-block
       padding: 10px
       transition: 150ms
       color: white
-
+      padding: 24px 15px
+      
