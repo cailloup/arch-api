@@ -27,3 +27,5 @@ const themes = {
   };
   
   export default themes;
+
+  export type ThemesKey = keyof typeof themes;
