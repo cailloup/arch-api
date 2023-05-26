@@ -1,9 +1,11 @@
-import { useRouter } from "next/router";
 import Link from "next/link";
-import styles from '@/styles/NavBar.module.sass'
+import { useRouter } from "next/router";
+import { useState } from "react";
+
+import { Nav,DivContainer,OptionsContainer } from "@/components/assests";
 import { utils } from "@/utils/utils";
-import { Nav,DivContainer,OptionsContainer } from "./assests";
-import { useMemo, useState } from "react";
+
+import styles from '@/styles/NavBar.module.sass'
 
 const options = [
     {name:"Mapa", route:"/"},
@@ -11,7 +13,6 @@ const options = [
     {name:"Panel", route:"/dashboard"},
     {name:"Temas", route:"/themes"},
 ];
-
 
 export default function NavBar(){
     const router = useRouter()
