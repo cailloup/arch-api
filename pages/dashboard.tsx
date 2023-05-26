@@ -1,4 +1,15 @@
 import Head from 'next/head'
+import Table from '@/components/table'
+
+const data = [
+  { id: 1, name: "John", age: 25 },
+  { id: 2, name: "Alice", age: 30 },
+  { id: 3, name: "Bob", age: 35 },
+];
+
+const handleRowClick = (row: any) => {
+  console.log("Clicked row:", row);
+};
 
 export default function Home() {
   return (
@@ -10,6 +21,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Panel de control</h1>
+      <Table data={data} onClick={handleRowClick} />
     </>
   )
 }
