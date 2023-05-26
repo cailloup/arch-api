@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Table from '@/components/table'
+import { Button, Input } from '@/components/assests';
 
 const data = [
   { id: 1, name: "John", age: 25 },
@@ -20,8 +21,18 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Panel de control</h1>
-      <Table data={data} onClick={handleRowClick} />
+      <h1 style={{padding: '10px 50px'}}>Panel de control</h1>
+      <div style={{padding: '10px 50px', display:'grid', gridTemplateColumns:'1fr 1fr 4fr',gap:'10px'}}>
+        <Button  $primary>Eliminar</Button>
+        <Button   $primary>Modificar</Button>
+        <Input placeholder='Ingrese nombre del edificio'></Input>
+      </div>
+      
+      <div style={{padding: '10px 50px'}}>
+        <Table data={data} onClick={handleRowClick} />
+      </div>
+      
+
     </>
   )
 }

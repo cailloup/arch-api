@@ -30,20 +30,20 @@ export const TableStyled = styled.table`
     }
 
     tr:nth-child(even) {
-        background-color:  ${props =>changeRGBToRGBA(props.theme.secondary,.8)} ; 
+        background-color:  ${props =>changeRGBToRGBA(props.theme.secondary,.5)} ; 
         filter: brightness(100%);
     }
     tr:nth-child(2n+1) {
         background-color: ${props =>changeRGBToRGBA(props.theme.secondary,.1)} ; 
     }
     tbody tr:hover{
-        background-color: ${props => changeRGBToRGBA(props.theme.primaryContrast,.7)}; 
+        background-color: ${props => changeRGBToRGBA(props.theme.primaryContrast,.8)}; 
         scale: 1.01;
         filter: brightness(120%);
     }
 
     tbody .active{
-        background-color: ${props => changeRGBToRGBA(props.theme.primaryContrast,.7)}; 
+        background-color: ${props => changeRGBToRGBA(props.theme.primaryContrast,.8)}; 
         color:${props => props.theme.primary};
         scale: 1.01;
     }
@@ -131,6 +131,7 @@ export const BodyConainer = styled.main`
     border-bottom: solid 2px  ${props => props.theme.secondary};
     border-radius: 0;
     transition:240ms;
+    font-size:18px;
     &:hover{
       border: none;
       border-bottom: solid 2px  ${props => props.theme.secondary};
