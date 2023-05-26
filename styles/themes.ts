@@ -10,11 +10,11 @@ const themes = {
       primaryContrast:'#2D3A48',
     },
     default:{
-        primary: 'white',
-        secondary: '#2986cc',
-        secondaryContrast: 'white',
-        generalText: 'black',
-        primaryContrast: '#2986cc'
+      primary: 'white',
+      secondary: '#2986cc',
+      secondaryContrast: 'white',
+      generalText: 'black',
+      primaryContrast: '#2986cc'
     },
     dark: {
       primary: '#181818',

@@ -113,11 +113,16 @@ export const BodyConainer = styled.main`
     
     `;
     export const Select = styled.select`
-    background-color: ${props => props.theme.primary};
+    background-color: transparent;
     border: none;
     border-bottom: solid 2px  ${props => props.theme.secondary};
     border-radius: 0;
     transition:240ms;
+
+    & option{
+        background-color:${props => props.theme.primary};
+    }
+
     &:hover{
       border: none;
       border-bottom: solid 2px  ${props => props.theme.secondary};
@@ -127,6 +132,8 @@ export const BodyConainer = styled.main`
       border: none;
       border-bottom: solid 2px  ${props => props.theme.primaryContrast};
     }
+
+    
     `;
   
     export const Button = styled.button<DivProps>`
