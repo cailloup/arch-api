@@ -38,14 +38,15 @@ export const TableStyled = styled.table`
     }
     tbody tr:hover{
         background-color: ${props => changeRGBToRGBA(props.theme.primaryContrast,.8)}; 
-        scale: 1.01;
+        transform: scale(1.01);
         filter: brightness(120%);
     }
 
     tbody .active{
-        background-color: ${props => changeRGBToRGBA(props.theme.primaryContrast,.8)}; 
+        background-color: ${props => changeRGBToRGBA(props.theme.primaryContrast,1)}; 
+        filter: brightness(120%);
         color:${props => props.theme.primary};
-        scale: 1.01;
+        transform: scale(1.02);
     }
     tbody .active td{
         color:${props => props.theme.primary};

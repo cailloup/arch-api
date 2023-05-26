@@ -1,6 +1,5 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState,useEffect } from "react";
 import styles from '@/styles/table.module.sass'
-import { useTheme } from 'styled-components';
 import { TableStyled } from "./assests";
 
 type TableRow = {
@@ -19,20 +18,24 @@ type TableProps = {
     onClick?: (row: TableRow) => void; // Click function that receives a row as an argument
 };
   
-const Table: React.FC<TableProps> = ({ data, onClick }) => {
+function Table({ data, onClick }: TableProps){
     if (data.length === 0) {
         return <div>No data available</div>;
     }
 
-    const initialData: TableData[] = data.map((row) => ({
-        ...row,
-        isSelected: false,
-    }));
-    const theme = useTheme();
-    const [sortColumn, setSortColumn] = useState("");
+    const [sortColumn, setSortColumn] = useState(Object.keys(data[0])[0]);
     const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
-    const [tableData, setTableData] = useState(initialData);
+    const [tableData, setTableData] = useState<TableData[]>([]);
     const headers = Object.keys(data[0]);
+    
+    useEffect(() => {
+        const initialData: TableData[] = data.map((row) => ({
+            ...row,
+            isSelected: false,
+        }));
+
+        setTableData(initialData);
+    }, [data]);
 
     const toggleSort = (column: string) => {
       if (sortColumn === column) {
@@ -65,27 +68,27 @@ const Table: React.FC<TableProps> = ({ data, onClick }) => {
     };
 
     return (
-        <TableStyled className={styles.table}>
-            <thead>
-                <tr className={styles.header}>
-                    {headers.map((header) => (
-                        <th key={header} onClick={() => toggleSort(header)}>{header}</th>
-                    ))}
-                </tr>
-            </thead>
-            <tbody>
-                {sortedData.map((item, index) => (
-                    <tr className={`${styles.row} ${item.isSelected?'active':''} `} key={index} onClick={() => {handleRowSelect(item); onClick?onClick(item):null}} >
-                        {Object.entries(item).map(([key, value]) => {
-                            if (key !== "isSelected") {
-                                return <td key={key}>{value}</td>;
-                            }
-                            return null; 
-                        })}
+            <TableStyled className={styles.table}>
+                <thead>
+                    <tr className={styles.header}>
+                        {headers.map((header) => (
+                            <th key={header} onClick={() => toggleSort(header)}>{header}</th>
+                        ))}
                     </tr>
-                ))}
-            </tbody>
-        </TableStyled>
+                </thead>
+                <tbody>
+                    {sortedData.map((item, index) => (
+                        <tr className={`${styles.row} ${item.isSelected?'active':''} `} key={index} onClick={() => {handleRowSelect(item); onClick?onClick(item):null}} >
+                            {Object.entries(item).map(([key, value]) => {
+                                if (key !== "isSelected") {
+                                    return <td key={key}>{value}</td>;
+                                }
+                                return null; 
+                            })}
+                        </tr>
+                    ))}
+                </tbody>
+            </TableStyled>
     );
 };
   
