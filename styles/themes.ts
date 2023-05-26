@@ -3,25 +3,25 @@
 const themes = {
 
     blueDark: {
-      primary: 'white',
-      secondary: "#2D3A48",
-      generalText: 'black',
-      secondaryContrast: 'white',
-      primaryContrast:'#2D3A48',
+      primary: 'rgb(255, 255, 255)',
+      secondary: "rgb(45, 58, 72)",
+      generalText: 'rgb(0, 0, 0)',
+      secondaryContrast: 'rgb(255, 255, 255)',
+      primaryContrast:'rgb(45, 58, 72)',
     },
     default:{
-      primary: 'white',
-      secondary: '#2986cc',
-      secondaryContrast: 'white',
-      generalText: 'black',
-      primaryContrast: '#2986cc'
+      primary: 'rgb(255, 255, 255)',
+      secondary: 'rgb(41, 134, 204)',
+      secondaryContrast: 'rgb(255, 255, 255)',
+      generalText: 'rgb(0, 0, 0)',
+      primaryContrast: 'rgb(41, 134, 204)',
     },
     dark: {
-      primary: '#181818',
-      secondary: "#1F1F1F",
-      generalText: 'white',
-      secondaryContrast: 'white',
-      primaryContrast:'white',
+      primary: 'rgb(24, 24, 24)',
+      secondary: "rgb(31, 31, 31)",
+      generalText: 'rgb(255, 255, 255)',
+      secondaryContrast: 'rgb(255, 255, 255)',
+      primaryContrast:'rgb(255, 255, 255)',
     },
   
   };

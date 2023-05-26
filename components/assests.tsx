@@ -10,6 +10,47 @@ interface InputProps extends React.HTMLAttributes<HTMLElement> {
     $notDisplay?: boolean;
 }
 
+function changeRGBToRGBA(rgbColor:string,target:number): string{
+    // Extraer los valores R, G y B del color RGB
+    const matches = rgbColor.match(/\d+/g);
+    if (!matches || matches.length !== 3) {
+        throw new Error("Invalid RGB color format");
+    }
+    const [r, g, b] = matches.map((value) => parseInt(value, 10));
+
+    // Construir el color RGBA con el valor de destino
+    const rgbaColor = `rgba(${r}, ${g}, ${b}, ${target})`;
+    return rgbaColor;
+}
+
+export const TableStyled = styled.table`
+    thead tr th{
+        background-color:  ${props => props.theme.secondary};
+        color: ${props => props.theme.secondaryContrast};
+    }
+
+    tr:nth-child(even) {
+        background-color:  ${props =>changeRGBToRGBA(props.theme.secondary,.8)} ; 
+        filter: brightness(100%);
+    }
+    tr:nth-child(2n+1) {
+        background-color: ${props =>changeRGBToRGBA(props.theme.secondary,.1)} ; 
+    }
+    tbody tr:hover{
+        background-color: ${props => changeRGBToRGBA(props.theme.primaryContrast,.7)}; 
+        scale: 1.01;
+        filter: brightness(120%);
+    }
+
+    tbody .active{
+        background-color: ${props => changeRGBToRGBA(props.theme.primaryContrast,.7)}; 
+        color:${props => props.theme.primary};
+        scale: 1.01;
+    }
+    tbody .active td{
+        color:${props => props.theme.primary};
+    }
+`;
 export const Nav = styled.nav<NavProps>`
     background-color: ${props => props.theme.secondary};
 
