@@ -138,7 +138,8 @@ export const BodyConainer = styled.main`
 
 
     `;
-    export const Input = styled.input<InputProps>`
+    export const Input = styled.input<InputProps>` 
+    color-scheme: ${props => props.theme.primary == 'rgb(24, 24, 24)'?'dark':'none'};
     background-color: ${props => props.theme.primary};
     border: none;
     border-bottom: solid 2px  ${props => props.theme.secondary};
