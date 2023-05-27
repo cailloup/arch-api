@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Table from '@/components/table'
 import { Button, Input } from '@/components/assests';
-import { useState,useEffect,useMemo } from 'react';
+import { useState,useEffect,useMemo, ChangeEvent } from 'react';
 
 import ArchytecstApi, { Building } from '@/utils/builddingsApi';
 
@@ -20,7 +20,7 @@ export default function Home() {
       setBuildings(building)
       );
 
-  }, []); // El segundo parámetro [] indica que solo se ejecuta una vez, al montar el componente
+  }, []);
 
   const filteredBuildings = useMemo(() => {
     return  buildings.filter( building => building.name.toLowerCase().includes(searchValue.toLowerCase()) ).map(({ uuid,image,refColor,location,isProtected, ...rest }) => {return rest;})
@@ -28,14 +28,10 @@ export default function Home() {
 
   const handleRowClick = (row: any) => {
     setSelectedBuildings((prevSelectedBuildings) => {
-      // Verificar si el row ya está seleccionado
       const isRowSelected = prevSelectedBuildings.map(building => building.name).includes(row.name);
-  
       if (isRowSelected) {
-        // Si el row está seleccionado, lo removemos de la lista de selectedBuildings
         return prevSelectedBuildings.filter((selectedRow) => selectedRow.name !== row.name);
       } else {
-        // Si el row no está seleccionado, lo agregamos a la lista de selectedBuildings
         return [...prevSelectedBuildings, row];
       }
     });
@@ -49,11 +45,15 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1 style={{padding: '10px 50px'}}>Panel de control</h1>
-      <div style={{padding: '10px 50px', display:'grid', gridTemplateColumns:'1fr 1fr 4fr',gap:'10px'}}>
-        <Button  $primary>Eliminar</Button>
-        <Button  $primary disabled={selectedBuildings.length!=1} >Modificar</Button>
-        <Input placeholder='Ingrese nombre del edificio' onChange={(e) => setSearchValue(e.target.value )}></Input>
+      <h1 style={{padding: '20px 50px'}}>Panel de control</h1>
+     
+      <div className={styles.inputContainer}>
+      <Input placeholder='Ingrese nombre del edificio' onChange={(e:ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value )}/>
+        <div>
+          <Button  $primary>  <i className="icon-bin"/> Eliminar</Button>
+          <Button  $primary disabled={selectedBuildings.length!=1} >Modificar</Button>
+        </div>
+       
       </div>
       <div  className={styles.tableContainer}>   
         <Table data={filteredBuildings} onClick={handleRowClick} />

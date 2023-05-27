@@ -1,3 +1,15 @@
+.inputContainer
+    padding: 10px 50px 
+    display: grid
+    grid-template-columns: 2fr 1fr
+    gap: 20px 10px 
+    div
+        display: grid
+        grid-template-columns: 1fr 1fr
+        gap: 10px
+    input
+        height: 42px
+
 .tableContainer
     padding: 10px 50px
     overflow: auto
@@ -7,3 +19,5 @@
 @media (max-width: 768px)
     .tableContainer
         padding: 0px 0px
+    .inputContainer
+        grid-template-columns: 1fr
