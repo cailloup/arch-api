@@ -10,6 +10,7 @@ export interface FormComponent {
     type: 'button' | 'input' | 'select';
     label: string;
     text?: string;
+    buttonFeed?: string
     options?: string[];
     primary?: boolean
     onClick?: () => void;
@@ -25,6 +26,10 @@ const Form: React.FC<FormProps> = ({ formComponents }) => {
 
                 {component.type === 'button' && (
                 <Button className={styles.margin} $primary={component.primary} onClick={component.onClick}>{component.text}</Button>
+                )}
+                
+                {component.buttonFeed && (
+                    <label className={styles.label}> {component.buttonFeed} </label>
                 )}
 
                 {component.type === 'input' && (
