@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { useContext } from 'react'
 import { ThemesKey } from '@/styles/themes'
 import {ThemeContext } from '@/components/layout'
-import { Select } from '@/components/assests';
+import { Select } from '@/components/assets';
 import { title } from 'process';
 export default function Home() {
   const { theme, setTheme} = useContext(ThemeContext);

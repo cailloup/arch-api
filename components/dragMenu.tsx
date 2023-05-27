@@ -1,6 +1,6 @@
 import styles from "@/styles/dragMenu.module.sass"
 import React, { useState,forwardRef, useImperativeHandle, Ref, ReactNode } from 'react';
-import { Container,LeftBarLine,LeftBar } from "./assests";
+import { Container,LeftBarLine,LeftBar } from "./assets";
 
 
 interface DragMenuProps {

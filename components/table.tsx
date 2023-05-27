@@ -1,6 +1,6 @@
 import { useMemo, useState,useEffect } from "react";
 import styles from '@/styles/table.module.sass'
-import { TableStyled } from "./assests";
+import { TableStyled } from "./assets";
 
 type TableRow = {
     [key: string]: string | number | boolean; 

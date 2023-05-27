@@ -1,7 +1,7 @@
 import NavBar from "@/components/NavBar";
 import { ThemeProvider } from "styled-components";
 import themes, { ThemesKey } from "@/styles/themes";
-import { BodyConainer } from "./assests";
+import { BodyConainer } from "./assets";
 import { useState, createContext } from "react";
 import { ToastContainer } from "react-toastify";
 

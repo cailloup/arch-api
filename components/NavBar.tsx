@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
-import { Nav,DivContainer,OptionsContainer } from "@/components/assests";
+import { Nav,DivContainer,OptionsContainer } from "@/components/assets";
 import { utils } from "@/utils/utils";
 
 import styles from '@/styles/NavBar.module.sass'

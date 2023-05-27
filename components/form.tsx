@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Input, Select } from './assests';
+import { Button, Input, Select } from './assets';
 import styles from '@/styles/form.module.sass'
 
 interface FormProps {

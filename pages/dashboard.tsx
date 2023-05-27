@@ -3,7 +3,7 @@ import { useState,useEffect,useMemo, ChangeEvent, useCallback } from 'react';
 import {toast} from "react-toastify"
 
 import Table, { Header } from '@/components/table'
-import { Button, Input } from '@/components/assests';
+import { Button, Input } from '@/components/assets';
 import ArchytecstApi, { Building } from '@/utils/builddingsApi';
 
 import styles from '@/styles/dashboard.module.sass'
