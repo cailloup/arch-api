@@ -15,7 +15,7 @@ export default function Home() {
       </Head>
       
       <DragMenu defaultWidth={50}>
-        <div style={{padding:'80px'}}>
+        <div className='p-80'>
           <Form formComponents={formRegisterFields}></Form>
         </div>
       </DragMenu>
