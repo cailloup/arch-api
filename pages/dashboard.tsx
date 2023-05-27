@@ -34,13 +34,13 @@ export default function DashBoard() {
     .map( building => mapObjectWithColumns(building,headers))                   
   }, [searchValue,buildings]);
 
-  const handleRowClick = useCallback((row: any) => {
+  const handleRowClick = useCallback((building: Building) => {
     setSelectedBuildings((prevSelectedBuildings) => {
-      const isRowSelected = prevSelectedBuildings.map(building => building.name).includes(row.name);
+      const isRowSelected = prevSelectedBuildings.map(({uuid}) => uuid).includes(building.uuid);
       if (isRowSelected) {
-        return prevSelectedBuildings.filter((selectedRow) => selectedRow.name !== row.name);
+        return prevSelectedBuildings.filter(({uuid}) => uuid !== building.uuid);
       } else {
-        return [...prevSelectedBuildings, row];
+        return [...prevSelectedBuildings, building];
       }
     });
   }, []);
@@ -58,7 +58,7 @@ export default function DashBoard() {
       <div className={styles.inputContainer}>
       <Input placeholder='Ingrese nombre del edificio' onChange={(e:ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value )}/>
         <div>
-          <Button onClick={() => console.log(selectedBuildings)} $primary>  <i className="icon-bin"/> Eliminar</Button>
+          <Button onClick={() => console.log(selectedBuildings[0].name)} $primary>  <i className="icon-bin"/> Eliminar</Button>
           <Button  $primary disabled={selectedBuildings.length!==1} >Modificar</Button>
         </div>
        

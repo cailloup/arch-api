@@ -23,7 +23,7 @@ export interface Header { field: string; name: string }
 
 type TableProps = {
     data: Data[];
-    onClick?: (row: TableRow) => void;
+    onClick?: (row: any) => void;
     headers: Header[]
 };
 
