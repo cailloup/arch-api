@@ -1,5 +1,6 @@
 import Head from 'next/head'
-import { useState,useEffect,useMemo, ChangeEvent } from 'react';
+import { useState,useEffect,useMemo, ChangeEvent, useCallback } from 'react';
+import {toast} from "react-toastify"
 
 import Table, { Header } from '@/components/table'
 import { Button, Input } from '@/components/assests';
@@ -9,16 +10,22 @@ import styles from '@/styles/dashboard.module.sass'
 
 const api = new ArchytecstApi()
 
-export default function Home() {
+export default function DashBoard() {
   const [buildings,setBuildings] = useState<Building[]>([])
   const [searchValue,setSearchValue] = useState<string>("")
   const [selectedBuildings,setSelectedBuildings] = useState<Building[]>([])
 
   useEffect(() => {
-    
-    api.getBuildings().then( building => 
+    toast.promise(
+      () => api.getBuildings(),
+      {
+        pending: 'Obteniendo edificios',
+        success: 'Edificios cargados correctamente 👌',
+        error: 'Hubo un error al cargar los edificios 🤯'
+      }
+    ).then( building => 
       setBuildings(building)
-      );
+    );
 
   }, []);
 
@@ -27,7 +34,7 @@ export default function Home() {
     .map( building => mapObjectWithColumns(building,headers))                   
   }, [searchValue,buildings]);
 
-  const handleRowClick = (row: any) => {
+  const handleRowClick = useCallback((row: any) => {
     setSelectedBuildings((prevSelectedBuildings) => {
       const isRowSelected = prevSelectedBuildings.map(building => building.name).includes(row.name);
       if (isRowSelected) {
@@ -36,7 +43,7 @@ export default function Home() {
         return [...prevSelectedBuildings, row];
       }
     });
-  };
+  }, []);
 
   return (
     <>

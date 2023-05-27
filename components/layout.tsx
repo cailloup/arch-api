@@ -3,6 +3,7 @@ import { ThemeProvider } from "styled-components";
 import themes, { ThemesKey } from "@/styles/themes";
 import { BodyConainer } from "./assests";
 import { useState, createContext } from "react";
+import { ToastContainer } from "react-toastify";
 
 export const ThemeContext = createContext({
   theme: 'default' as ThemesKey,
@@ -12,14 +13,27 @@ export const ThemeContext = createContext({
 export default function Layout({children}: {children: React.ReactNode;}) {
   const [theme, setTheme] = useState('default' as ThemesKey);
     return (
-      <ThemeProvider theme={themes[theme]}>
-        <NavBar/>
-          <BodyConainer>
-            <ThemeContext.Provider value={{ theme, setTheme }}>
-              {children}
-            </ThemeContext.Provider>
-          </BodyConainer>
-      </ThemeProvider>
-
+      <>
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme= {theme=="default"?"light":"dark"}
+          />
+        <ThemeProvider theme={themes[theme]}>
+          <NavBar/>
+            <BodyConainer>
+              <ThemeContext.Provider value={{ theme, setTheme }}>
+                {children}
+              </ThemeContext.Provider>
+            </BodyConainer>
+        </ThemeProvider>
+      </>
     ); 
   }
