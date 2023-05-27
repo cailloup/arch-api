@@ -13,7 +13,6 @@ export default function Home() {
         <DragMenu defaultWidth={40}>
           <h1>HOLA</h1>
         </DragMenu>
-
     </>
   )
 }

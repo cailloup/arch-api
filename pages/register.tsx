@@ -1,3 +1,4 @@
+import { DragMenu } from '@/components/dragMenu'
 import Head from 'next/head'
 
 export default function Home() {
@@ -9,7 +10,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Registrar edificio</h1>
+      
+      <DragMenu defaultWidth={50}>
+        <h1>Registrar Edificio</h1>
+      </DragMenu>
     </>
   )
 }
