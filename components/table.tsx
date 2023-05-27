@@ -2,35 +2,44 @@ import { useMemo, useState,useEffect } from "react";
 import styles from '@/styles/table.module.sass'
 import { TableStyled } from "./assests";
 
+
+
 type TableRow = {
     [key: string]: string | number | boolean; // Define the expected data types for each table column
 };
 
 type TableData = {
-    [key: string]: string | number | boolean; // Define the expected data types for each table column
+    columns: TableRow; // Define the expected data types for each table column
+    object:any;
     isSelected: boolean;
 };
 
 type SortOrder = "asc" | "desc";
 
+export type Header ={field:string,name:string};
+
+type Data = {
+   object:any;
+   columns: TableRow
+};
+
+
 type TableProps = {
-    data: TableRow[]; // Array of TableRow objects to represent the table data
+    data: Data[]; // Array of TableRow objects to represent the table data
     onClick?: (row: TableRow) => void; // Click function that receives a row as an argument
+    headers: Header[]
 };
   
-function Table({ data, onClick }: TableProps){
-    if (data.length === 0) {
-        return <div>No data available</div>;
-    }
-
-    const [sortColumn, setSortColumn] = useState(Object.keys(data[0])[0]);
-    const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
+function Table({ headers ,data, onClick }: TableProps){
+    const [sortOrder, setSortOrder] = useState<SortOrder>("asc");  
     const [tableData, setTableData] = useState<TableData[]>([]);
-    const headers = Object.keys(data[0]);
+    const [sortColumn, setSortColumn] = useState<keyof TableRow>("");
+      
     
     useEffect(() => {
         const initialData: TableData[] = data.map((row) => ({
-            ...row,
+            columns:row.columns,
+            object:row.object,
             isSelected: false,
         }));
 
@@ -49,8 +58,8 @@ function Table({ data, onClick }: TableProps){
     const sortedData = useMemo(() => {
         if (sortColumn !== "") {
             const sorted = [...tableData].sort((a, b) => {
-                const aValue = a[sortColumn];
-                const bValue = b[sortColumn];
+                const aValue = a.columns[sortColumn];
+                const bValue = b.columns[sortColumn];
                 if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
                 if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
                 return 0;
@@ -60,10 +69,11 @@ function Table({ data, onClick }: TableProps){
       return tableData;
     }, [tableData, sortColumn, sortOrder]);
 
-    const handleRowSelect = (row: TableRow) => {
-        const updatedData = tableData.map((item) =>
-          item === row ? { ...item, isSelected: !item.isSelected } : item
+    const handleRowSelect = (item: TableData) => {
+        const updatedData = tableData.map((data) =>
+        data.columns === item.columns ? { ...data, isSelected: !data.isSelected } : data
         );
+
         setTableData(updatedData);
     };
 
@@ -72,18 +82,15 @@ function Table({ data, onClick }: TableProps){
                 <thead>
                     <tr className={styles.header}>
                         {headers.map((header) => (
-                            <th key={header} onClick={() => toggleSort(header)}>{header}</th>
+                            <th key={header.field} onClick={() => toggleSort(header.field)}>{header.name}</th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
-                    {sortedData.map((item, index) => (
-                        <tr className={`${styles.row} ${item.isSelected?'active':''} `} key={index} onClick={() => {handleRowSelect(item); onClick?onClick(item):null}} >
-                            {Object.entries(item).map(([key, value]) => {
-                                if (key !== "isSelected") {
-                                    return <td key={key}>{value}</td>;
-                                }
-                                return null; 
+                    {tableData && sortedData.map((item, index) => (
+                        <tr className={`${styles.row} ${item.isSelected?'active':''} `} key={index} onClick={() => {handleRowSelect(item); onClick?onClick(item.object):null}} >
+                            {Object.entries(item.columns).map(([key, value]) => {
+                                return <td key={key}>{value}</td>;
                             })}
                         </tr>
                     ))}

@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Table from '@/components/table'
+import Table, { Header } from '@/components/table'
 import { Button, Input } from '@/components/assests';
 import { useState,useEffect,useMemo, ChangeEvent } from 'react';
 
@@ -23,7 +23,8 @@ export default function Home() {
   }, []);
 
   const filteredBuildings = useMemo(() => {
-    return  buildings.filter( building => building.name.toLowerCase().includes(searchValue.toLowerCase()) ).map(({ uuid,image,refColor,location,isProtected, ...rest }) => {return rest;})
+    return buildings.filter( building => building.name.toLowerCase().includes(searchValue.toLowerCase()))
+    .map( building => mapObjectWithColumns(building,headers))                   
   }, [searchValue,buildings]);
 
   const handleRowClick = (row: any) => {
@@ -50,16 +51,41 @@ export default function Home() {
       <div className={styles.inputContainer}>
       <Input placeholder='Ingrese nombre del edificio' onChange={(e:ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value )}/>
         <div>
-          <Button  $primary>  <i className="icon-bin"/> Eliminar</Button>
+          <Button onClick={() => console.log(selectedBuildings)} $primary>  <i className="icon-bin"/> Eliminar</Button>
           <Button  $primary disabled={selectedBuildings.length!=1} >Modificar</Button>
         </div>
        
       </div>
       <div  className={styles.tableContainer}>   
-        <Table data={filteredBuildings} onClick={handleRowClick} />
+        <Table headers={headers} data={filteredBuildings} onClick={handleRowClick} />
       </div>
       
 
     </>
   )
 }
+
+function mapObjectWithColumns(originalObject: any, headers: Header[]) {
+  const columns:any = {};
+  headers.forEach(({field}) =>{
+    if (originalObject.hasOwnProperty(field)) {
+      columns[field] = originalObject[field];
+    }
+  })
+  return {
+    object: originalObject,
+    columns: columns
+  };
+}
+
+const headers = [
+  {field:"name",name:"Nombre"},
+  {field:"address",name:"Direccion"},
+  {field:"period",name:"epoca"},
+  {field:"city",name:"Ciudad"},
+  {field:"architect",name:"Arquitecto"},
+  {field:"type",name:"Tipo"},
+  {field:"state",name:"Estado"},
+  {field:"style",name:"Estilo"},
+  {field:"builtDate",name:"Construccion"},
+]
