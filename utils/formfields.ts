@@ -5,51 +5,75 @@ const buildingStyles = ["Centro Europeo","Modernismo","Prefabricado","Tradiciona
 
 export const formRegisterFields: FormComponent[] = [
     {
-        type: 'input',
+        id:'county',
+        type: 'input&Button',
         label: 'Partido',
         readonly: true,
+        value: 'Partido de villa Gesell',
+        textButton:'cambiar',
     },
     {
+        id:'address',
         type: 'input',
-        text: 'Direccion del edificio',
+        text: ['calle'],
         label: 'Direccion'
     },
     {
+        id:'name',
         type: 'input',
-        text: 'Nombre del edificio',
+        text: ['Nombre del edificio'],
         label: 'Nombre'
     },
     {
+        id:'architect',
         type: 'input',
-        text: 'Nombre del arquitecto',
+        text: ['Nombre','Apellido'],
         label: 'Arquitecto'
     },
     {
+        id:'state',
         type: 'input',
-        text: 'Estado del edificio',
+        text: ['Estado del edificio'],
         label: 'Estado'
     },
     {
+        id:'period',
         type: 'input',
-        text: 'Epoca del edificio',
+        text: ['Epoca del edificio'],
         label: 'Epoca'
     },
     {
+        id:'imageButton',
         type: 'button',
-        text: 'seleccionar  imagen',
+        text: ['seleccionar  imagen'],
         label: 'Imagen edificio',
         buttonFeed:'Imagen sin seleccionar',
         primary: false,
     },
     {
+        id:'type',
         type: 'select',
         label: 'Seleccione tipo de edificio',
         options: buildingTypes,
     },
     {
+        id:'style',
         type: 'select',
         label: 'Seleccione estilo del edificio',
         options: buildingStyles,
+    },
+    {
+        id:'protected',
+        type: 'input',
+        text: ['Estado de proteccion'],
+        label: 'Proteccion',
+        optional: true,
+    },
+    {
+        id:'builtDate',
+        type: 'inputDate',
+        text: ['Fecha de construccion'],
+        label: 'Fecha de construccion',
     },
 
   ]
