@@ -4,7 +4,7 @@ import Form from '@/components/form'
 import { DragMenu } from '@/components/dragMenu'
 import { formRegisterFields } from '@/utils/formfields'
 
-export default function Home() {
+export default function RegisterBuilding() {
   return (
     <>
       <Head>
