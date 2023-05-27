@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "@types/next": "^9.0.0",
+    "@types/sass": "^1.45.0",
     "@types/styled-components": "^5.1.26",
     "sass": "^1.62.1",
     "styled-components": "^5.3.10"

@@ -23,6 +23,18 @@ function changeRGBToRGBA(rgbColor:string,target:number): string{
     return rgbaColor;
 }
 
+export const Container = styled.div`
+  background-color: ${props => props.theme.primary};
+`;
+
+export const LeftBar = styled.div`
+    background-color: ${props => props.theme.secondary};
+`;
+
+export const LeftBarLine = styled.div`
+    background-color: ${props => props.theme.secondaryContrast};
+`;
+
 export const TableStyled = styled.table`
     thead tr th{
         background-color:  ${props => props.theme.secondary};

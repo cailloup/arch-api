@@ -26,7 +26,7 @@ export default function DashBoard() {
     ).then( building => 
       setBuildings(building)
     );
-
+    
   }, []);
 
   const filteredBuildings = useMemo(() => {
