@@ -45,6 +45,10 @@ export default function DashBoard() {
     });
   }, []);
 
+  const handleInputChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  }, []);
+
   return (
     <>
       <Head>
@@ -56,13 +60,13 @@ export default function DashBoard() {
       <h1 style={{padding: '20px 50px'}}>Panel de control</h1>
      
       <div className={styles.inputContainer}>
-      <Input placeholder='Ingrese nombre del edificio' onChange={(e:ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value )}/>
+        <Input placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
         <div>
           <Button onClick={() => console.log(selectedBuildings[0].name)} $primary>  <i className="icon-bin"/> Eliminar</Button>
           <Button  $primary disabled={selectedBuildings.length!==1} >Modificar</Button>
         </div>
-       
       </div>
+
       <div  className={styles.tableContainer}>   
         <Table headers={headers} data={filteredBuildings} onClick={handleRowClick} />
       </div>
