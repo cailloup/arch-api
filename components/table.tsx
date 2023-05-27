@@ -96,4 +96,3 @@ function Table({ headers ,data, onClick }: TableProps){
 };
   
 export default Table;
-  
