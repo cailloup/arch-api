@@ -8,8 +8,9 @@ export const formRegisterFields: FormComponent[] = [
     },
     {
       type: 'button',
-      text: 'Seleccionar imagen',
-      label: 'Seleccione una imagen',
+      text: 'seleccionar imagen',
+      label: 'Imagen edificio',
+      buttonFeed:'Imagen sin seleccionar',
       primary: false,
     },
     {
