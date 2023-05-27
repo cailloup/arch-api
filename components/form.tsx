@@ -19,30 +19,30 @@ export interface FormComponent {
 const Form: React.FC<FormProps> = ({ formComponents }) => {
   return (
     <form>
-    {formComponents.map((component, index) => (
-        <div key={index}>
-            <label className={styles.label}>{component.label} </label><br/>
+        {formComponents.map((component, index) => (
+            <div key={index}>
+                <label className={styles.label}>{component.label} </label><br/>
 
-            {component.type === 'button' && (
-            <Button className={styles.margin} $primary={component.primary} onClick={component.onClick}>{component.text}</Button>
-            )}
-
-            {component.type === 'input' && (
-            <Input className={`${styles.input} ${styles.margin}`} onChange={component.onChange} placeholder={component.text} />
-            )}
-
-            {component.type === 'select' && (
-            <Select className={`${styles.input} ${styles.margin}`} onChange={component.onChange}>
-                {component.options?.map(option => 
-                    <option key={option}>{option}</option>  
+                {component.type === 'button' && (
+                <Button className={styles.margin} $primary={component.primary} onClick={component.onClick}>{component.text}</Button>
                 )}
-            </Select>
-            )}
-            
-            <br/><br/>
-        </div>
-    ))}
-  </form>
+
+                {component.type === 'input' && (
+                <Input className={`${styles.input} ${styles.margin}`} onChange={component.onChange} placeholder={component.text} />
+                )}
+
+                {component.type === 'select' && (
+                <Select className={`${styles.input} ${styles.margin}`} onChange={component.onChange}>
+                    {component.options?.map(option => 
+                        <option key={option}>{option}</option>  
+                    )}
+                </Select>
+                )}
+
+                <br/><br/>
+            </div>
+        ))}
+    </form>
   );
 };
 
