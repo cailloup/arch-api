@@ -145,6 +145,7 @@ export const BodyConainer = styled.main`
     border-radius: 0;
     transition:240ms;
     font-size:18px;
+    padding: 4px 8px;
     &:hover{
       border: none;
       border-bottom: solid 2px  ${props => props.theme.secondary};
@@ -170,6 +171,7 @@ export const BodyConainer = styled.main`
     export const Select = styled.select`
     background-color: transparent;
     border: none;
+    font-size:18px;
     border-bottom: solid 2px  ${props => props.theme.secondary};
     border-radius: 0;
     transition:240ms;
@@ -211,7 +213,7 @@ export const BodyConainer = styled.main`
             background-color: transparent;
             color:  ${props => props.theme.primaryContrast};
             box-shadow: unset;
-            box-shadow: inset 0 0 0 3px ${props => props.theme.primaryContrast};
+            box-shadow: inset 0 0 0 2px ${props => props.theme.primaryContrast};
             
             i{
                 font-size: 18px;
