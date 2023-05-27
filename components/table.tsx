@@ -2,34 +2,31 @@ import { useMemo, useState,useEffect } from "react";
 import styles from '@/styles/table.module.sass'
 import { TableStyled } from "./assests";
 
-
-
 type TableRow = {
-    [key: string]: string | number | boolean; // Define the expected data types for each table column
+    [key: string]: string | number | boolean; 
 };
 
+type Data = {
+    object:any;
+    columns: TableRow
+ };
+
 type TableData = {
-    columns: TableRow; // Define the expected data types for each table column
+    columns: TableRow; 
     object:any;
     isSelected: boolean;
 };
 
 type SortOrder = "asc" | "desc";
 
-export type Header ={field:string,name:string};
-
-type Data = {
-   object:any;
-   columns: TableRow
-};
-
+export interface Header { field: string; name: string }
 
 type TableProps = {
-    data: Data[]; // Array of TableRow objects to represent the table data
-    onClick?: (row: TableRow) => void; // Click function that receives a row as an argument
+    data: Data[];
+    onClick?: (row: TableRow) => void;
     headers: Header[]
 };
-  
+
 function Table({ headers ,data, onClick }: TableProps){
     const [sortOrder, setSortOrder] = useState<SortOrder>("asc");  
     const [tableData, setTableData] = useState<TableData[]>([]);
@@ -46,7 +43,7 @@ function Table({ headers ,data, onClick }: TableProps){
         setTableData(initialData);
     }, [data]);
 
-    const toggleSort = (column: string) => {
+    const toggleSort = (column: keyof TableRow) => {
       if (sortColumn === column) {
         setSortOrder(sortOrder === "asc" ? "desc" : "asc");
       } else {
@@ -55,7 +52,7 @@ function Table({ headers ,data, onClick }: TableProps){
       }
     };
 
-    const sortedData = useMemo(() => {
+    const sortedData: TableData[] = useMemo(() => {
         if (sortColumn !== "") {
             const sorted = [...tableData].sort((a, b) => {
                 const aValue = a.columns[sortColumn];
@@ -73,7 +70,6 @@ function Table({ headers ,data, onClick }: TableProps){
         const updatedData = tableData.map((data) =>
         data.columns === item.columns ? { ...data, isSelected: !data.isSelected } : data
         );
-
         setTableData(updatedData);
     };
 
