@@ -26,9 +26,11 @@ const Form: React.FC<FormProps> = ({ formComponents }) => {
             {component.type === 'button' && (
             <Button className={styles.margin} $primary={component.primary} onClick={component.onClick}>{component.text}</Button>
             )}
+
             {component.type === 'input' && (
             <Input className={`${styles.input} ${styles.margin}`} onChange={component.onChange} placeholder={component.text} />
             )}
+
             {component.type === 'select' && (
             <Select className={`${styles.input} ${styles.margin}`} onChange={component.onChange}>
                 {component.options?.map(option => 
@@ -36,6 +38,7 @@ const Form: React.FC<FormProps> = ({ formComponents }) => {
                 )}
             </Select>
             )}
+            
             <br/><br/>
         </div>
     ))}
