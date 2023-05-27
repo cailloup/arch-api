@@ -15,8 +15,8 @@ export default function Home() {
       </Head>
       
       <DragMenu defaultWidth={50}>
-        <div className='p-80'>
-          <Form formComponents={formRegisterFields}></Form>
+        <div className='container p-80'>
+          <Form submitText='Registrar edificio' formComponents={formRegisterFields}></Form>
         </div>
       </DragMenu>
     </>
