@@ -1,8 +1,8 @@
 import Head from 'next/head'
-import Table, { Header } from '@/components/table'
-import { Button, Input } from '@/components/assests';
 import { useState,useEffect,useMemo, ChangeEvent } from 'react';
 
+import Table, { Header } from '@/components/table'
+import { Button, Input } from '@/components/assests';
 import ArchytecstApi, { Building } from '@/utils/builddingsApi';
 
 import styles from '@/styles/dashboard.module.sass'
@@ -52,15 +52,13 @@ export default function Home() {
       <Input placeholder='Ingrese nombre del edificio' onChange={(e:ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value )}/>
         <div>
           <Button onClick={() => console.log(selectedBuildings)} $primary>  <i className="icon-bin"/> Eliminar</Button>
-          <Button  $primary disabled={selectedBuildings.length!=1} >Modificar</Button>
+          <Button  $primary disabled={selectedBuildings.length!==1} >Modificar</Button>
         </div>
        
       </div>
       <div  className={styles.tableContainer}>   
         <Table headers={headers} data={filteredBuildings} onClick={handleRowClick} />
       </div>
-      
-
     </>
   )
 }
