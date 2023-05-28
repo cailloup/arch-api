@@ -173,7 +173,7 @@ export const BodyConainer = styled.main`
     font-size:18px;
     box-shadow: 0px -2px 0px 0px ${props => props.theme.primaryContrast} inset;
     border-radius: 0;
-    transition:240ms;
+    transition:150ms;
     padding: 5px 8px;
 
     & option{
