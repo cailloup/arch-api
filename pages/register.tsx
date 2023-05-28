@@ -21,7 +21,7 @@ export default function RegisterBuilding() {
       
       <DragMenu defaultWidth={50}>
         <div className='container p-80'>
-          <Form submitText='Registrar edificio' formComponents={formRegisterFields} onSubmit={handleSubmit}></Form>
+          <Form submitText='Registrar edificio' formComponents={formRegisterFields} onSubmit={handleSubmit}/>
         </div>
       </DragMenu>
     </>
