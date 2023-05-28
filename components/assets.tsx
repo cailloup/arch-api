@@ -142,19 +142,17 @@ export const BodyConainer = styled.main`
     color-scheme: ${props => props.theme.primary == 'rgb(24, 24, 24)'?'dark':'none'};
     background-color: ${props => props.theme.primary};
     border: none;
-    border-bottom: solid 2px  ${props => props.theme.secondary};
+    box-shadow: 0px -2px 0px 0px ${props => props.theme.primaryContrast} inset;
     border-radius: 0;
-    transition:240ms;
+    transition:150ms;
     font-size:18px;
-    padding: 4px 8px;
-    &:hover{
-      border: none;
-      border-bottom: solid 2px  ${props => props.theme.secondary};
-    }
+    padding: 5px 8px;
+
     
     &:focus{
-      border: none;
-      border-bottom: solid 4px  ${props => props.theme.primaryContrast};
+      
+      box-shadow: 0px -4px 0px 0px ${props => props.theme.primaryContrast} inset;
+     
     }
     
     &:disabled {
@@ -173,22 +171,18 @@ export const BodyConainer = styled.main`
     background-color: transparent;
     border: none;
     font-size:18px;
-    border-bottom: solid 2px  ${props => props.theme.secondary};
+    box-shadow: 0px -2px 0px 0px ${props => props.theme.primaryContrast} inset;
     border-radius: 0;
     transition:240ms;
+    padding: 5px 8px;
 
     & option{
         background-color:${props => props.theme.primary};
     }
-
-    &:hover{
-      border: none;
-      border-bottom: solid 2px  ${props => props.theme.secondary};
-    }
     
     &:focus{
       border: none;
-      border-bottom: solid 2px  ${props => props.theme.primaryContrast};
+      box-shadow: 0px -4px 0px 0px ${props => props.theme.primaryContrast} inset;
     }
 
     
