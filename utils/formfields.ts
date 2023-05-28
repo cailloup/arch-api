@@ -43,11 +43,11 @@ export const formRegisterFields: FormComponent[] = [
         label: 'Epoca'
     },
     {
-        id:'imageButton',
-        type: 'button',
+        id:'image',
+        type: 'inputFile',
         text: ['seleccionar  imagen'],
         label: 'Imagen edificio',
-        buttonFeed:'Imagen sin seleccionar',
+        textButton: 'Seleccionar imagen',
         primary: false,
     },
     {

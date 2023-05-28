@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { Button, Input, Select } from './assets';
 import styles from '@/styles/form.module.sass'
 
@@ -9,7 +9,7 @@ interface FormProps {
 }
 
 export interface FormComponent {
-    type: 'button' | 'input' | 'select' | 'input&Button' | 'inputDate';
+    type: 'button' | 'input' | 'select' | 'input&Button' | 'inputDate' | 'inputFile';
     label: string;
     id: string;
     text?: string[];
@@ -31,14 +31,21 @@ function Form({ submitText, formComponents, onSubmit }: FormProps){
       
         const data: any = formComponents.reduce((acc:any, component) => {
           if (component.type !== 'button') {
-            const elements = event.currentTarget.querySelectorAll<HTMLInputElement>(`[id^="${component.id}"]`);
-            acc[component.id] = Array.from(elements).map((element) => element.value).join(' ');
+            if(component.type !== 'inputFile'){
+                const elements = event.currentTarget.querySelectorAll<HTMLInputElement>(`[id^="${component.id}"]`);
+                acc[component.id] = Array.from(elements).map((element) => element.value).join(' ');
+            }else{
+                const element = event.currentTarget.querySelector<HTMLInputElement>(`#${component.id}`);
+                if(element?.files?.length){
+                    acc[component.id] =element.files[0];
+                } 
+            }
           }
           return acc;
         }, {});
       
         onSubmit(data);
-      };
+    };
 
     return (
         <form onSubmit={handleSubmit}>
@@ -64,6 +71,8 @@ const renderComponent = (component: FormComponent) => {
             return renderInput(component);
         case 'input&Button':
             return renderInputNButton(component);
+        case 'inputFile':
+            return renderInputFile(component);
         case 'select':
             return renderSelect(component);
         case 'inputDate':
@@ -104,6 +113,32 @@ const renderInput = ({readonly,onChange,text,value,optional,id}:FormComponent) =
                 <Input name={id} id={`${id}${index}`} key={index} required={!optional} readOnly={readonly} disabled={readonly} className={`${styles.input} ${styles.margin}`} onChange={onChange} placeholder={text} defaultValue={value?value:''}/>
             )}
         </div>
+    )
+}
+const renderInputFile = ({textButton,primary,id}:FormComponent) =>{
+    const inputFileRef = useRef<HTMLInputElement>(null);
+    const [fileName,setFileName] = useState('(Imagen sin seleccionar)');
+
+    const handleOnButtonClick = (event:React.MouseEvent<HTMLButtonElement, MouseEvent> | React.MouseEvent<HTMLElement, MouseEvent>) =>{
+        event.preventDefault();
+        if(inputFileRef.current){
+            inputFileRef.current.click() 
+        }
+    }
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const fileName = inputFileRef?.current?.value?.split('\\').pop();
+        if (fileName) {
+          setFileName(fileName)
+        }
+    };
+
+    return(
+        <>
+            <Input ref={inputFileRef} type='file' accept='image/*' id={id} $notDisplay className={`${styles.input} ${styles.margin}`} onChange={handleFileChange}/>
+            <Button className={styles.margin} $primary={primary} onClick={handleOnButtonClick}>{textButton}</Button>
+            {` ${fileName} `}
+        </>
     )
 }
 
