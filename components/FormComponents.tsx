@@ -184,12 +184,10 @@ type ComponentWrapperProps = React.PropsWithChildren<{
   
   const ComponentWrapper: React.FC<ComponentWrapperProps> = ({ children, label}) => {
     return (
-      <>
         <div className={styles.component}>
             <span  className={styles.label} >{label} </span> <br/>   
             {children}
         </div>
-      </>
     );
   };
 
