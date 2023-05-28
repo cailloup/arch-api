@@ -7,9 +7,10 @@
 
 .margin
     margin-top:5px 
+    margin-left: 10px
 
 .component 
-    margin-bottom: 40px
+    margin-top: 40px
     padding-left: 10px
     padding-right: 10px
 
@@ -23,6 +24,18 @@
     transition: 250ms
     width: 150px
     height: 150px
+
+.grid
+    gap: 15px
+    display: grid
+
+.form
+    display: flex
+    flex-direction: column
+.sendButton
+    align-self: flex-end
+    margin-top: 40px
+
 @media (max-width: 768px)
     .grid
         grid-template-columns: 1fr!important
