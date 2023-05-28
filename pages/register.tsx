@@ -5,6 +5,11 @@ import { DragMenu } from '@/components/dragMenu'
 import { formRegisterFields } from '@/utils/formfields'
 
 export default function RegisterBuilding() {
+
+  const handleSubmit = (data: any)=>{
+    console.log(data);
+  }
+
   return (
     <>
       <Head>
@@ -16,7 +21,7 @@ export default function RegisterBuilding() {
       
       <DragMenu defaultWidth={50}>
         <div className='container p-80'>
-          <Form submitText='Registrar edificio' formComponents={formRegisterFields}></Form>
+          <Form submitText='Registrar edificio' formComponents={formRegisterFields} onSubmit={handleSubmit}></Form>
         </div>
       </DragMenu>
     </>
