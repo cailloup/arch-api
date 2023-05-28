@@ -53,10 +53,10 @@ export class ButtonComponent implements Component{
 
     render = (): React.ReactElement => {
         return (
-            <>
+            <div className={styles.componentPadding}>
                 <Button className={styles.margin} $primary={this.props.primary} onClick={this.props.onClick}>{this.props.text} </Button>
                 <br/>
-            </>
+            </div>
         )
     };
 }
@@ -185,8 +185,10 @@ type ComponentWrapperProps = React.PropsWithChildren<{
   const ComponentWrapper: React.FC<ComponentWrapperProps> = ({ children, label}) => {
     return (
         <div className={styles.component}>
-            <span  className={styles.label} >{label} </span> <br/>   
-            {children}
+            <span  className={styles.label} >{label} </span> <br/>
+            <div className={styles.margin }>   
+                {children}
+            </div>
         </div>
     );
   };
