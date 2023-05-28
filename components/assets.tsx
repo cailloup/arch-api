@@ -86,6 +86,32 @@ export const Nav = styled.nav<NavProps>`
             background-color: ${props => props.theme.primaryContrast};
         }
     `}
+    
+    @media (max-width: 768px){
+        .active{
+            background-color: ${props => props.theme.secondaryContrast};
+            color: ${props => props.theme.secondary};
+            &::before{
+                width: 0%;
+            }
+        }
+        .option{
+            transition: 200ms;
+            &:hover{
+                background-color: ${props => props.theme.secondaryContrast};
+                color: ${props => props.theme.secondary};
+                
+                &::before{
+                    width: 00%;
+                   
+                }
+            }
+
+            
+
+        }
+    }
+
 
 `;
 
