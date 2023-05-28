@@ -5,6 +5,7 @@ import styles from '@/styles/form.module.sass'
 interface FormProps {
     submitText:string;
     formComponents: FormComponent[];
+    onSubmit: (data:any)=> void;
 }
 
 export interface FormComponent {
@@ -23,21 +24,36 @@ export interface FormComponent {
     onChange?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-function Form({ submitText, formComponents }: FormProps){
-  return (
-    <form>
-        {formComponents.map((component, index) => (
-            <div key={index} >
-                <span className={styles.label}>{component.label} </span><br/>
-                <div className={styles.component}>
-                    {renderComponent(component)}
+function Form({ submitText, formComponents, onSubmit }: FormProps){
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const data:any ={}
+
+        formComponents.filter(({type}) => type!='button' )
+            .forEach( component => {
+                const elements = event.currentTarget.querySelectorAll<HTMLInputElement>(`[id^="${component.id}"]`)
+                data[component.id] = Array.from(elements).map((element) => element.value).join(' ')      
+        })
+
+        onSubmit(data)
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            {formComponents.map((component, index) => (
+                <div key={index} >
+                    <span className={styles.label}>{component.label} </span><br/>
+                    <div className={styles.component}>
+                        {renderComponent(component)}
+                    </div>
+                    
                 </div>
-                
-            </div>
-        ))}
-        <Button $primary className='right'>{submitText}</Button>
-    </form>
-  );
+            ))}
+            <Button $primary className='right'>{submitText}</Button>
+        </form>
+    );
 };
 
 const renderComponent = (component: FormComponent) => {
@@ -71,7 +87,7 @@ const renderButton = ({primary,onClick,text,buttonFeed}:FormComponent) =>{
 const renderSelect = ({options,onChange,id}:FormComponent) =>{
     return(
         <>
-            <Select id={id}  className={`${styles.input} ${styles.margin}`} onChange={onChange}>
+            <Select name={id} id={id}  className={`${styles.input} ${styles.margin}`} onChange={onChange}>
                 {options?.map(option => 
                     <option key={option}>{option}</option>  
                 )}
@@ -85,7 +101,7 @@ const renderInput = ({readonly,onChange,text,value,optional,id}:FormComponent) =
     return(
         <div className={styles.grid} style={{ gap:'15px', display:'grid', gridTemplateColumns:`repeat(${text?.length},1fr)` }} >
             {text?.map( (text,index) =>
-                <Input id={`${id}${index}`} key={index} required={!optional} readOnly={readonly} disabled={readonly} className={`${styles.input} ${styles.margin}`} onChange={onChange} placeholder={text} defaultValue={value?value:''}/>
+                <Input name={id} id={`${id}${index}`} key={index} required={!optional} readOnly={readonly} disabled={readonly} className={`${styles.input} ${styles.margin}`} onChange={onChange} placeholder={text} defaultValue={value?value:''}/>
             )}
         </div>
     )
@@ -103,7 +119,7 @@ const renderInputNButton = ({readonly,onChange,text,value,textButton,primary,onC
 const renderInputDate = ({readonly,onChange,value,id}:FormComponent) =>{
     
     return(
-        <Input id={id} type='date' readOnly={readonly} min={"1800-01-01"} max={new Date().toISOString().split("T")[0]} disabled={readonly} className={`${styles.input} ${styles.margin}`} onChange={onChange}  defaultValue={new Date().toISOString().split("T")[0]}/>
+        <Input name={id} id={id} type='date' readOnly={readonly} min={"1800-01-01"} max={new Date().toISOString().split("T")[0]} disabled={readonly} className={`${styles.input} ${styles.margin}`} onChange={onChange}  defaultValue={new Date().toISOString().split("T")[0]}/>
     )
 }
 export default Form;
