@@ -28,17 +28,17 @@ function Form({ submitText, formComponents, onSubmit }: FormProps){
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
-        const data:any ={}
-
-        formComponents.filter(({type}) => type!='button' )
-            .forEach( component => {
-                const elements = event.currentTarget.querySelectorAll<HTMLInputElement>(`[id^="${component.id}"]`)
-                data[component.id] = Array.from(elements).map((element) => element.value).join(' ')      
-        })
-
-        onSubmit(data)
-    };
+      
+        const data: any = formComponents.reduce((acc:any, component) => {
+          if (component.type !== 'button') {
+            const elements = event.currentTarget.querySelectorAll<HTMLInputElement>(`[id^="${component.id}"]`);
+            acc[component.id] = Array.from(elements).map((element) => element.value).join(' ');
+          }
+          return acc;
+        }, {});
+      
+        onSubmit(data);
+      };
 
     return (
         <form onSubmit={handleSubmit}>
