@@ -55,7 +55,6 @@ function Form({ submitText, formComponents, onSubmit }: FormProps){
                     <div className={styles.component}>
                         {renderComponent(component)}
                     </div>
-                    
                 </div>
             ))}
             <Button $primary className='right'>{submitText}</Button>
