@@ -117,7 +117,7 @@ const renderInput = ({readonly,onChange,text,value,optional,id}:FormComponent) =
 }
 const renderInputFile = ({textButton,primary,id}:FormComponent) =>{
     const inputFileRef = useRef<HTMLInputElement>(null);
-    const [fileName,setFileName] = useState('(Imagen sin seleccionar)');
+    const [fileName,setFileName] = useState<string>('(Imagen sin seleccionar)');
     const [imageURL, setImageURL] = useState<string | null>(null);
     const [showImage, setShowImage] = useState<Boolean>(false);
 
@@ -129,6 +129,10 @@ const renderInputFile = ({textButton,primary,id}:FormComponent) =>{
     }
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (imageURL) {
+            URL.revokeObjectURL(imageURL);
+        }
+        
         const file = event.target.files?.[0];
         if (file) {
             setFileName(file.name);
