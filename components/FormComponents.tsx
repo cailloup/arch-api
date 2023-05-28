@@ -178,10 +178,9 @@ export class InputDateComponent implements Component{
     };
 }
 
-type ComponentWrapperProps = {
-    children: React.ReactNode;
+type ComponentWrapperProps = React.PropsWithChildren<{
     label: string;
-  };
+}>;
   
   const ComponentWrapper: React.FC<ComponentWrapperProps> = ({ children, label}) => {
     return (
