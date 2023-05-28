@@ -118,6 +118,8 @@ const renderInput = ({readonly,onChange,text,value,optional,id}:FormComponent) =
 const renderInputFile = ({textButton,primary,id}:FormComponent) =>{
     const inputFileRef = useRef<HTMLInputElement>(null);
     const [fileName,setFileName] = useState('(Imagen sin seleccionar)');
+    const [imageURL, setImageURL] = useState<string | null>(null);
+    const [showImage, setShowImage] = useState<Boolean>(false);
 
     const handleOnButtonClick = (event:React.MouseEvent<HTMLButtonElement, MouseEvent> | React.MouseEvent<HTMLElement, MouseEvent>) =>{
         event.preventDefault();
@@ -127,17 +129,24 @@ const renderInputFile = ({textButton,primary,id}:FormComponent) =>{
     }
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const fileName = inputFileRef?.current?.value?.split('\\').pop();
-        if (fileName) {
-          setFileName(fileName)
+        const file = event.target.files?.[0];
+        if (file) {
+            setFileName(file.name);
+            const url = URL.createObjectURL(file);
+            setImageURL(url);
+        } else {
+            setFileName('(Imagen sin seleccionar)');
+            setImageURL(null);
         }
     };
-
+    
     return(
         <>
             <Input ref={inputFileRef} type='file' accept='image/*' id={id} $notDisplay className={`${styles.input} ${styles.margin}`} onChange={handleFileChange}/>
             <Button className={styles.margin} $primary={primary} onClick={handleOnButtonClick}>{textButton}</Button>
-            {` ${fileName} `}
+            <span onClick={() => setShowImage(!showImage) } style={{ userSelect:'none',cursor: imageURL?'pointer':'default'  }} >{`${fileName}`}</span>
+            {imageURL && <><br/><img className={`${showImage?styles.imgShow:styles.img} `} src={imageURL} alt="Imagen seleccionada" /></>}
+            
         </>
     )
 }
