@@ -148,7 +148,7 @@ const renderInputFile = ({textButton,primary,id}:FormComponent) =>{
         <>
             <Input ref={inputFileRef} type='file' accept='image/*' id={id} $notDisplay className={`${styles.input} ${styles.margin}`} onChange={handleFileChange}/>
             <Button className={styles.margin} $primary={primary} onClick={handleOnButtonClick}>{textButton}</Button>
-            <span onClick={() => setShowImage(!showImage) } style={{ userSelect:'none',cursor: imageURL?'pointer':'default'  }} >{`${fileName}`}</span>
+            <span onClick={() => setShowImage(!showImage) } style={{ userSelect:'none',cursor: imageURL?'pointer':'default'  }} >{` ${fileName}`}</span>
             {imageURL && <><br/><img className={`${showImage?styles.imgShow:styles.img} `} src={imageURL} alt="Imagen seleccionada" /></>}
             
         </>
