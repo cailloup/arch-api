@@ -1,7 +1,7 @@
 import { ButtonComponent, Component, InputComponent, InputDateComponent, InputFileComponent, SelectComponent } from "@/components/FormComponents"
 
-const buildingTypes = ["C. C. Municipal","Comercial","Educativo","Esparcimiento","Histórico","Hotelera","Municipal","Público","Religioso","Urbano","Vivienda","Otro"]
-const buildingStyles = ["Centro Europeo","Modernismo","Prefabricado","Tradicional","Otro"]
+export const buildingTypes = ["C. C. Municipal","Comercial","Educativo","Esparcimiento","Histórico","Hotelera","Municipal","Público","Religioso","Urbano","Vivienda","Otro"]
+export const buildingStyles = ["Centro Europeo","Modernismo","Prefabricado","Tradicional","Otro"]
 
  export const formRegisterFields: Component[] = [
         new InputComponent({id:'city',label:'Partido',readOnly:true,defaultValue:'Partido de villa gesell',placeHolder:['']}),
@@ -15,7 +15,7 @@ const buildingStyles = ["Centro Europeo","Modernismo","Prefabricado","Tradiciona
         new SelectComponent({id:'type',label:'Tipo',options:buildingTypes}),
         new SelectComponent({id:'style',label:'Estilo',options:buildingStyles}),
         new InputComponent({id:'protected',label:'Proteccion',placeHolder:['Ingrese proteccion del edificio']}),
-        new InputDateComponent({id:'date',label:'Fecha de contruccion',min:'12-02-1800',max:new Date().toISOString().split("T")[0], defaultValue:new Date().toISOString().split("T")[0] }),
+        new InputDateComponent({id:'builtDate',label:'Fecha de contruccion',min:'12-02-1800',max:new Date().toISOString().split("T")[0], defaultValue:new Date().toISOString().split("T")[0] }),
     ]
  
  
