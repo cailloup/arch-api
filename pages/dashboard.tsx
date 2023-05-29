@@ -8,8 +8,8 @@ import ArchytecstApi, { Building } from '@/utils/builddingsApi';
 
 import styles from '@/styles/dashboard.module.sass'
 import Form from '@/components/form';
-import { formRegisterFields } from '@/utils/formfields';
-import { Component, InputComponent, InputDateComponent } from '@/components/FormComponents';
+import { buildingStyles, buildingTypes, formRegisterFields } from '@/utils/formfields';
+import { ButtonComponent, Component, InputComponent, InputDateComponent, InputFileComponent, SelectComponent } from '@/components/FormComponents';
 
 const api = new ArchytecstApi()
 
@@ -26,7 +26,7 @@ export default function DashBoard() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <AdminBoard  setSelectedBuilding={setSelectedBuilding} className={ `${styles.screen}  ${showModifyScreen?styles.hideAdmin:styles.show}` } setShowModifyScreen={()=> setShowModifyScreen(true)}/>
-      <ModifyBoard showModifyFields={showModifyScreen} building={selectedBuilding} className={ `${styles.screen}  ${showModifyScreen?styles.show:styles.hideModify}` } setShowModifyScreen={()=> setShowModifyScreen(false)}/>
+      <ModifyBoard showModifyFields={showModifyScreen} building={selectedBuilding} className={ `${styles.screen} ${styles.modifyScreen} ${showModifyScreen?styles.show:styles.hideModify}` } setShowModifyScreen={()=> setShowModifyScreen(false)}/>
     </>
   ) 
 }
@@ -105,8 +105,6 @@ const AdminBoard: React.FC<DashBoardProps> = ({ setSelectedBuilding,setShowModif
 
     return (
       <div {...props}>
-        <h1 style={{padding: '20px 50px'}}>Panel de control</h1>
-        
         <div className={styles.inputContainer}>
           <Input placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
           <div>
@@ -126,15 +124,21 @@ const ModifyBoard: React.FC<DashBoardProps> = ({ building,showModifyFields,setSh
   const [modifyFields, setModifyFields] = useState<Component[]>([]);
 
   useEffect(() => {
-    console.log('reseteando');
     if(showModifyFields){
       setModifyFields([
+        new InputComponent({id:'city',label:'Partido',readOnly:true,defaultValue:'Partido de villa gesell',placeHolder:['']}),
+        new ButtonComponent({id:'cambiar',onClick:()=>{},text:'Cambiar'}),
         new InputComponent({ id: 'name', label: 'Nombre', placeHolder: ['Ingrese nombre del edificio'], defaultValue: building?.name }),
         new InputComponent({ id: 'address', label: 'Direccion', placeHolder: ['Ingrese direccion del edificio'], defaultValue: building?.address }),
         new InputComponent({ id: 'archytect', label: 'Arquitecto', placeHolder: ['Ingrese nombre', 'Ingrese apellido'], defaultValue: building?.architect }),
         new InputComponent({ id: 'state', label: 'Estado', placeHolder: ['Ingrese estado del edificio'], defaultValue: building?.state }),
         new InputDateComponent({ id: 'builtDate', label: 'Fecha de construccion', defaultValue: building?.builtDate, max: '', min: '' }),
         new InputComponent({ id: 'protected', label: 'Proteccion', placeHolder: ['Ingrese proteccion del edificio'], defaultValue: building?.isProtected.info }),
+        new InputFileComponent({ id: 'image', defaultValue: building?.image,label:'Imagen',textButton:'Seleccionar imagen' }),
+        new SelectComponent({id:'style',label:'Estilo',options:buildingStyles, defaultValue: building?.style}),
+        new SelectComponent({id:'type',label:'Tipo',options:buildingTypes,defaultValue: building?.type}),
+        new InputComponent({id:'period',label:'Epoca',placeHolder:['Ingrese epoca de edificio'],defaultValue: building?.period}),
+
       ]);
     }else{
       setModifyFields([])
@@ -144,11 +148,12 @@ const ModifyBoard: React.FC<DashBoardProps> = ({ building,showModifyFields,setSh
   
 
   return(
-    <div {...props} style={{padding: '70px 50px', overflow:'auto'}}>
+    <div {...props}>
         <div>
           <Button className='right' onClick={setShowModifyScreen} >Volver</Button>
         </div>
         <Form formComponents={modifyFields} onSubmit={(e)=> console.log(e)} submitText='Aplicar cambios' />
+        
     </div>
   )
 }
