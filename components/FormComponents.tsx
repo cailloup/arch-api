@@ -8,9 +8,9 @@ type ComponentProps = {
 type InputComponentProps = {
     label:string;
     placeHolder: string[];
+    defaultValue?: string;
     onChange?: () => void;
     required?: boolean;
-    value?: string;
     readOnly?: boolean;
 }& ComponentProps;
 
@@ -25,18 +25,21 @@ type InputFileComponentProps ={
     label:string;
     textButton: string;
     primary?: boolean;
+    defaultValue?: string;
 }& ComponentProps;
 
 type SelectComponentProps ={
     label:string;
     options: string[];
+    defaultValue?: string;
 }& ComponentProps;
 
 type InputDateComponentProps ={
     label:string;
-    defaultValue:string;
+    defaultValue?:string;
     min:string;
     max:string;
+    
 }& ComponentProps;
 
 export interface Component{
@@ -83,7 +86,7 @@ export class InputComponent implements Component {
                 className={`${styles.input}`}
                 onChange={this.props.onChange}
                 placeholder={placeHolder}
-                defaultValue={this.props.value ? this.props.value : ''}
+                defaultValue={this.props.defaultValue ? this.props.defaultValue : ''}
             />
             )}
         </div>
@@ -152,7 +155,7 @@ export class SelectComponent implements Component {
     render = (): React.ReactElement => {
       return (
         <ComponentWrapper label={this.props.label}>
-            <Select id={this.props.id} className={`${styles.input}`}>
+            <Select id={this.props.id} className={`${styles.input}`} defaultValue={this.props.defaultValue ? this.props.defaultValue : ''}>
                 {this.props.options.map(option =>
                     <option key={option}>{option}</option>    
                 )}
@@ -172,7 +175,7 @@ export class InputDateComponent implements Component{
     render = (): React.ReactElement => {
         return (
             <ComponentWrapper label={this.props.label}>
-                <Input id={this.props.id} type="date" className={styles.input} min={this.props.min} max={this.props.max} defaultValue={this.props.defaultValue}/>
+                <Input id={this.props.id} type="date" className={styles.input} min={this.props.min} max={this.props.max} defaultValue={this.props.defaultValue ? this.props.defaultValue : ''}/>
             </ComponentWrapper>
         )
     };

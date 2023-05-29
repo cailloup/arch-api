@@ -4,7 +4,7 @@ const buildingTypes = ["C. C. Municipal","Comercial","Educativo","Esparcimiento"
 const buildingStyles = ["Centro Europeo","Modernismo","Prefabricado","Tradicional","Otro"]
 
  export const formRegisterFields: Component[] = [
-        new InputComponent({id:'city',label:'Partido',readOnly:true,value:'Partido de villa gesell',placeHolder:['']}),
+        new InputComponent({id:'city',label:'Partido',readOnly:true,defaultValue:'Partido de villa gesell',placeHolder:['']}),
         new ButtonComponent({id:'cambiar',onClick:()=>{},text:'Cambiar'}),
         new InputComponent({id:'address',label:'Direccion',placeHolder:['Ingrese direcion del edificio']}),
         new InputComponent({id:'name',label:'Nombre',placeHolder:['Ingrese nombre del edificio'],required:true}),
