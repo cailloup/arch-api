@@ -105,8 +105,8 @@ export class InputFileComponent implements Component {
   
     render = (): React.ReactElement => {
         const inputFileRef = useRef<HTMLInputElement>(null);
-        const [fileName,setFileName] = useState<string>('(Imagen sin seleccionar)');
-        const [imageURL, setImageURL] = useState<string | null>(null);
+        const [fileName,setFileName] = useState<string>(this.props.defaultValue?'imagen.jpg':'(Imagen sin seleccionar)');
+        const [imageURL, setImageURL] = useState<string | null | undefined>(this.props.defaultValue);
         const [showImage, setShowImage] = useState<Boolean>(false);
         
         const handleOnButtonClick = (event:React.MouseEvent<HTMLButtonElement, MouseEvent> | React.MouseEvent<HTMLElement, MouseEvent>) =>{
