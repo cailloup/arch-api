@@ -111,7 +111,7 @@ const AdminBoard: React.FC<DashBoardProps> = ({ setSelectedBuilding,setShowModif
           <Input placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
           <div>
             <Button $primary disabled={selectedBuildings.length==0} onClick={() => console.log(selectedBuildings[0].name)} >  <i className="icon-bin"/> Eliminar</Button>
-            <Button  $primary disabled={selectedBuildings.length!==1} onClick={() => {setSelectedBuilding(selectedBuildings[0]);setShowModifyScreen()}} >Modificar</Button>
+            <Button  $primary disabled={(selectedBuildings.length!==1)} onClick={() => { if(setSelectedBuilding) setSelectedBuilding(selectedBuildings[0]);setShowModifyScreen()}} >Modificar</Button>
           </div>
         </div>
 
