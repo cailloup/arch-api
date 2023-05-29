@@ -7,47 +7,15 @@ import { Button, Input } from '@/components/assets';
 import ArchytecstApi, { Building } from '@/utils/builddingsApi';
 
 import styles from '@/styles/dashboard.module.sass'
+import Form from '@/components/form';
+import { formRegisterFields } from '@/utils/formfields';
+import { Component, InputComponent, InputDateComponent } from '@/components/FormComponents';
 
 const api = new ArchytecstApi()
 
 export default function DashBoard() {
-  const [buildings,setBuildings] = useState<Building[]>([])
-  const [searchValue,setSearchValue] = useState<string>("")
-  const [selectedBuildings,setSelectedBuildings] = useState<Building[]>([])
-
-  useEffect(() => {
-    toast.promise(
-      () => api.getBuildings(),
-      {
-        pending: 'Obteniendo edificios',
-        success: 'Edificios cargados correctamente 👌',
-        error: 'Hubo un error al cargar los edificios 🤯'
-      }
-    ).then( building => 
-      setBuildings(building)
-    );
-    
-  }, []);
-
-  const filteredBuildings = useMemo(() => {
-    return buildings.filter( building => building.name.toLowerCase().includes(searchValue.toLowerCase()))
-    .map( building => mapObjectWithColumns(building,headers))                   
-  }, [searchValue,buildings]);
-
-  const handleRowClick = useCallback((building: Building) => {
-    setSelectedBuildings((prevSelectedBuildings) => {
-      const isRowSelected = prevSelectedBuildings.map(({uuid}) => uuid).includes(building.uuid);
-      if (isRowSelected) {
-        return prevSelectedBuildings.filter(({uuid}) => uuid !== building.uuid);
-      } else {
-        return [...prevSelectedBuildings, building];
-      }
-    });
-  }, []);
-
-  const handleInputChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-  }, []);
+  const [showModifyScreen,setShowModifyScreen] = useState<boolean>(false)
+  const [selectedBuilding,setSelectedBuilding] = useState<Building>()
 
   return (
     <>
@@ -57,21 +25,10 @@ export default function DashBoard() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1 style={{padding: '20px 50px'}}>Panel de control</h1>
-     
-      <div className={styles.inputContainer}>
-        <Input placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
-        <div>
-          <Button onClick={() => console.log(selectedBuildings[0].name)} $primary>  <i className="icon-bin"/> Eliminar</Button>
-          <Button  $primary disabled={selectedBuildings.length!==1} >Modificar</Button>
-        </div>
-      </div>
-
-      <div  className={styles.tableContainer}>   
-        <Table headers={headers} data={filteredBuildings} onClick={handleRowClick} />
-      </div>
+      <AdminBoard  setSelectedBuilding={setSelectedBuilding} className={ `${styles.screen}  ${showModifyScreen?styles.hideAdmin:styles.show}` } setShowModifyScreen={()=> setShowModifyScreen(true)}/>
+      <ModifyBoard showModifyFields={showModifyScreen} building={selectedBuilding} className={ `${styles.screen}  ${showModifyScreen?styles.show:styles.hideModify}` } setShowModifyScreen={()=> setShowModifyScreen(false)}/>
     </>
-  )
+  ) 
 }
 
 function mapObjectWithColumns(originalObject: any, headers: Header[]) {
@@ -98,3 +55,100 @@ const headers = [
   {field:"style",name:"Estilo"},
   {field:"builtDate",name:"Construccion"},
 ]
+
+
+interface DashBoardProps extends React.HTMLAttributes<HTMLDivElement> {
+  setShowModifyScreen: () => void;
+  setSelectedBuilding?: (building:Building ) => void;
+  building?: Building;
+  showModifyFields?: boolean;
+}
+
+const AdminBoard: React.FC<DashBoardProps> = ({ setSelectedBuilding,setShowModifyScreen, ...props }) => {
+    const [buildings,setBuildings] = useState<Building[]>([])
+    const [searchValue,setSearchValue] = useState<string>("")
+    const [selectedBuildings,setSelectedBuildings] = useState<Building[]>([])
+
+    useEffect(() => {
+      toast.promise(
+        () => api.getBuildings(),
+        {
+          pending: 'Obteniendo edificios',
+          success: 'Edificios cargados correctamente 👌',
+          error: 'Hubo un error al cargar los edificios 🤯'
+        }
+      ).then( building => 
+        setBuildings(building)
+      );
+      
+    }, []);
+
+    const filteredBuildings = useMemo(() => {
+      return buildings.filter( building => building.name.toLowerCase().includes(searchValue.toLowerCase()))
+      .map( building => mapObjectWithColumns(building,headers))                   
+    }, [searchValue,buildings]);
+
+    const handleRowClick = useCallback((building: Building) => {
+      setSelectedBuildings((prevSelectedBuildings) => {
+        const isRowSelected = prevSelectedBuildings.map(({uuid}) => uuid).includes(building.uuid);
+        if (isRowSelected) {
+          return prevSelectedBuildings.filter(({uuid}) => uuid !== building.uuid);
+        } else {
+          return [...prevSelectedBuildings, building];
+        }
+      });
+    }, []);
+
+    const handleInputChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
+      setSearchValue(e.target.value);
+    }, []);
+
+    return (
+      <div {...props}>
+        <h1 style={{padding: '20px 50px'}}>Panel de control</h1>
+        
+        <div className={styles.inputContainer}>
+          <Input placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
+          <div>
+            <Button $primary disabled={selectedBuildings.length==0} onClick={() => console.log(selectedBuildings[0].name)} >  <i className="icon-bin"/> Eliminar</Button>
+            <Button  $primary disabled={selectedBuildings.length!==1} onClick={() => {setSelectedBuilding(selectedBuildings[0]);setShowModifyScreen()}} >Modificar</Button>
+          </div>
+        </div>
+
+        <div  className={styles.tableContainer}>   
+          <Table headers={headers} data={filteredBuildings} onClick={handleRowClick} />
+        </div>
+      </div>
+    );
+}
+
+const ModifyBoard: React.FC<DashBoardProps> = ({ building,showModifyFields,setShowModifyScreen, ...props }) => {
+  const [modifyFields, setModifyFields] = useState<Component[]>([]);
+
+  useEffect(() => {
+    console.log('reseteando');
+    if(showModifyFields){
+      setModifyFields([
+        new InputComponent({ id: 'name', label: 'Nombre', placeHolder: ['Ingrese nombre del edificio'], defaultValue: building?.name }),
+        new InputComponent({ id: 'address', label: 'Direccion', placeHolder: ['Ingrese direccion del edificio'], defaultValue: building?.address }),
+        new InputComponent({ id: 'archytect', label: 'Arquitecto', placeHolder: ['Ingrese nombre', 'Ingrese apellido'], defaultValue: building?.architect }),
+        new InputComponent({ id: 'state', label: 'Estado', placeHolder: ['Ingrese estado del edificio'], defaultValue: building?.state }),
+        new InputDateComponent({ id: 'builtDate', label: 'Fecha de construccion', defaultValue: building?.builtDate, max: '', min: '' }),
+        new InputComponent({ id: 'protected', label: 'Proteccion', placeHolder: ['Ingrese proteccion del edificio'], defaultValue: building?.isProtected.info }),
+      ]);
+    }else{
+      setModifyFields([])
+    }
+    
+  }, [showModifyFields]);
+  
+
+  return(
+    <div {...props} style={{padding: '70px 50px', overflow:'auto'}}>
+        <div>
+          <Button className='right' onClick={setShowModifyScreen} >Volver</Button>
+        </div>
+        <Form formComponents={modifyFields} onSubmit={(e)=> console.log(e)} submitText='Aplicar cambios' />
+    </div>
+  )
+}
