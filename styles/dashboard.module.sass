@@ -37,10 +37,15 @@
 .hideAdmin 
     transform: translateX(100%)
 
+    *
+        box-shadow: unset
+
 .hideModify 
     transform: translateX(-100%)
 
-
+.modifyScreen
+    padding: 30px 50px
+    overflow: auto
 
 @media (max-width: 768px)
     .tableContainer
@@ -48,3 +53,6 @@
     .inputContainer
         padding: 10px 10px
         grid-template-columns: 1fr
+    .modifyScreen
+        padding: 30px 5px
+
