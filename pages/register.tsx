@@ -7,7 +7,7 @@ import { ButtonComponent, InputComponent, InputDateComponent, InputFileComponent
 
 export default function RegisterBuilding() {
   const handleSubmit = (data: any)=>{
-    console.log(data);
+    console.log(data)
   }
 
   return (
