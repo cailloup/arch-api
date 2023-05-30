@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import { useState } from 'react';
 import { Building } from '@/utils/builddingsApi';
-import { ModifyBoard } from './modifyBoard';
-import { AdminBoard } from './adminBoard';
+import ModifyBoard from './modifyBoard';
+import AdminBoard from './adminBoard';
 import styles from '@/styles/dashboard.module.sass'
 export default function DashBoard() {
   const [showModifyScreen,setShowModifyScreen] = useState<boolean>(false)
