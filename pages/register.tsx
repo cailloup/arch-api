@@ -4,8 +4,10 @@ import Form from '@/components/form'
 import { DragMenu } from '@/components/dragMenu'
 import { buildingStyles, buildingTypes} from '@/utils/formfields'
 import { ButtonComponent, InputComponent, InputDateComponent, InputFileComponent, SelectComponent } from '@/components/FormComponents'
+import { useRef } from 'react'
 
 export default function RegisterBuilding() {
+  const screenRef = useRef<HTMLDivElement>(null);
   const handleSubmit = (data: any)=>{
     console.log(data)
   }
@@ -18,8 +20,9 @@ export default function RegisterBuilding() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      
-      <DragMenu defaultWidth={50}>
+      <div ref={screenRef}>
+      </div>
+      <DragMenu screenRef={screenRef} defaultWidth={50}>
           <Form onSubmit={handleSubmit} className="container p-80">
             <InputComponent id='city' label='Partido' placeHolder={['']} defaultValue='Villa Gesell' readOnly />
             <ButtonComponent type='button' onClick={()=> {console.log('hola')}} text='Cambiar'  />
