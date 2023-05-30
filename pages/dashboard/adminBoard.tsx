@@ -23,9 +23,9 @@ export const AdminBoard: React.FC<DashBoardProps> = ({ setSelectedBuilding,setSh
         }
       ).then( building => 
         setBuildings(building)
-      );
+      )
       
-    }, []);
+    }, [])
 
     const filteredBuildings = useMemo(() => {
       return buildings.filter( building => building.name.toLowerCase().includes(searchValue.toLowerCase()))
@@ -34,14 +34,14 @@ export const AdminBoard: React.FC<DashBoardProps> = ({ setSelectedBuilding,setSh
 
     const handleRowClick = useCallback((building: Building) => {
       setSelectedBuildings((prevSelectedBuildings) => {
-        const isRowSelected = prevSelectedBuildings.map(({uuid}) => uuid).includes(building.uuid);
+        const isRowSelected = prevSelectedBuildings.map(({uuid}) => uuid).includes(building.uuid)
         if (isRowSelected) {
-          return prevSelectedBuildings.filter(({uuid}) => uuid !== building.uuid);
+          return prevSelectedBuildings.filter(({uuid}) => uuid !== building.uuid)
         } else {
-          return [...prevSelectedBuildings, building];
+          return [...prevSelectedBuildings, building]
         }
-      });
-    }, []);
+      })
+    }, [])
 
     const handleInputChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
       setSearchValue(e.target.value);
@@ -61,7 +61,7 @@ export const AdminBoard: React.FC<DashBoardProps> = ({ setSelectedBuilding,setSh
           <Table headers={headers} data={filteredBuildings} onClick={handleRowClick} />
         </div>
       </div>
-    );
+    )
 }
 
 function mapObjectWithColumns(originalObject: any, headers: Header[]) {
@@ -74,7 +74,7 @@ function mapObjectWithColumns(originalObject: any, headers: Header[]) {
     return {
       object: originalObject,
       columns: columns
-    };
+    }
 }
   
 const headers = [
