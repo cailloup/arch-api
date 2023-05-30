@@ -1,7 +1,9 @@
 import { DragMenu } from '@/components/dragMenu'
 import Head from 'next/head'
+import { useRef } from 'react'
 
 export default function Home() {
+  const screenRef = useRef<HTMLDivElement>(null);
   return (
     <>
       <Head>
@@ -10,7 +12,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-        <DragMenu defaultWidth={40}>
+        <div ref={screenRef} style={{  width:'60%', height:'100%', backgroundColor:'red', position:'absolute'}}>
+          <img style={{width:'100%', height:'100%'}} src="https://es.rollingstone.com/wp-content/uploads/2022/06/01-Pity-Alvarez-Diego-Spivacow-AFV-La-Nacion-Diego-Spivacow-AFVESP_AFV_111129_0105_xE_180313.jpg" alt="" />
+        </div>
+        <DragMenu screenRef={screenRef} defaultWidth={40}>
           <h1>HOLA</h1>
         </DragMenu>
     </>
