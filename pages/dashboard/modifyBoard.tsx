@@ -3,7 +3,7 @@ import Form from "@/components/form";
 import { buildingStyles, buildingTypes } from "@/utils/formfields";
 import { DashBoardProps } from ".";
 
-export const ModifyBoard: React.FC<DashBoardProps> = ({ building,setShowModifyScreen, ...props }) => {
+const ModifyBoard: React.FC<DashBoardProps> = ({ building,setShowModifyScreen, ...props }) => {
     
     const handleSubmit = (data: any)=>{
       //TODO
@@ -32,3 +32,4 @@ export const ModifyBoard: React.FC<DashBoardProps> = ({ building,setShowModifySc
       </div>
     )
 }
+export default ModifyBoard

@@ -7,7 +7,7 @@ import { DashBoardProps } from ".";
 import styles from '@/styles/dashboard.module.sass'
 
 const api = new ArchytecstApi()
-export const AdminBoard: React.FC<DashBoardProps> = ({ setSelectedBuilding,setShowModifyScreen, ...props }) => {
+const AdminBoard: React.FC<DashBoardProps> = ({ setSelectedBuilding,setShowModifyScreen, ...props }) => {
     const [buildings,setBuildings] = useState<Building[]>([])
     const [searchValue,setSearchValue] = useState<string>("")
     const [selectedBuildings,setSelectedBuildings] = useState<Building[]>([])
@@ -89,3 +89,4 @@ const headers = [
     {field:"builtDate",name:"Construccion"},
 ]
   
+export default AdminBoard
