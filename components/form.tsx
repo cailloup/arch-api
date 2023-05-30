@@ -1,44 +1,38 @@
-import React, { useMemo, useRef, useState } from 'react';
-import { Button, Input, Select } from './assets';
+import React, {useRef} from 'react';
 import styles from '@/styles/form.module.sass'
-import { ButtonComponent, Component, InputFileComponent } from './FormComponents';
-interface FormProps {
-    submitText:string;
-    formComponents: Component[];
-    onSubmit: (data:any)=> void;
-}
 
-function Form({ submitText, formComponents, onSubmit }: FormProps){
+type FormProps = React.HTMLProps<HTMLFormElement> & {
+    onSubmit: (data: any) => void;
+};
+
+const Form: React.FC<FormProps> = ({onSubmit,children,...props }) =>{
+    const formRef = useRef<HTMLFormElement | null>(null);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-      
-        const data: any = formComponents.reduce((acc:any, component) => {
-          if (!(component instanceof ButtonComponent)) {
-            if(!(component instanceof InputFileComponent)){
-                const elements = event.currentTarget.querySelectorAll<HTMLInputElement>(`[id^="${component.props.id}"]`);
-                acc[component.props.id] = Array.from(elements).map((element) => element.value).join(' ');
-            }else{
-                const element = event.currentTarget.querySelector<HTMLInputElement>(`#${component.props.id}`);
-                if(element?.files?.length){
-                    acc[component.props.id] =element.files[0];
-                } 
-            }
-          }
-          return acc;
-        }, {});
+        
+        const data: any = Array.from(formRef.current?.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input[id^="form_data_"], select[id^="form_data_"]') ?? [])
+            .reduce((acc: any, element: HTMLInputElement | HTMLSelectElement) => {
+                const componentname = element.name;
+                const componentType = element.type;
+            
+                if (componentType == 'file') {
+                if (element instanceof HTMLInputElement && element.files?.length) {
+                    acc[componentname] = element.files[0];
+                }
+                } else {
+                    acc[componentname] = acc[componentname]?acc[componentname] + ' ' + element.value: element.value;
+                }
+            
+                return acc;
+            }, {});
       
         onSubmit(data);
     };
 
     return (
-        <form onSubmit={handleSubmit} className={styles.form}>
-            {formComponents.map((component, index) => (
-                <div key={index} >
-                    {component.render()}
-                </div>
-            ))}
-            <Button $primary className={styles.sendButton}>{submitText}</Button>
+        <form {...props} ref={formRef} onSubmit={handleSubmit} className={`${styles.form} ${props.className}`}>
+            {children}
         </form>
     );
 };
