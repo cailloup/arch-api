@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 import Form from '@/components/form'
 import { DragMenu } from '@/components/dragMenu'
-import { buildingStyles, buildingTypes} from '@/utils/formfields'
+import { buildingStyles, buildingTypes} from '@/utils/utils'
 import { ButtonComponent, InputComponent, InputDateComponent, InputFileComponent, SelectComponent } from '@/components/FormComponents'
 import { useRef } from 'react'
 import ArchytecstApi from '@/utils/builddingsApi';

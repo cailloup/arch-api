@@ -1,6 +1,6 @@
 import { ButtonComponent, InputComponent, InputDateComponent, InputFileComponent, SelectComponent } from "@/components/FormComponents";
 import Form from "@/components/form";
-import { buildingStyles, buildingTypes } from "@/utils/formfields";
+import { buildingStyles, buildingTypes } from "@/utils/utils";
 import { DashBoardProps } from ".";
 import ArchytecstApi, { Building } from "@/utils/builddingsApi";
 import { toast } from "react-toastify";
