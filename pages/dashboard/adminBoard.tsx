@@ -7,11 +7,10 @@ import { DashBoardProps } from ".";
 import styles from '@/styles/dashboard.module.sass'
 
 const api = new ArchytecstApi()
-const AdminBoard: React.FC<DashBoardProps> = ({ setSelectedBuilding,setShowModifyScreen, ...props }) => {
+const AdminBoard: React.FC<DashBoardProps> = ({ cleanList,clean,setSelectedBuilding,setShowModifyScreen,selectedBuilding, ...props }) => {
     const [buildings,setBuildings] = useState<Building[]>([])
     const [searchValue,setSearchValue] = useState<string>("")
     const [selectedBuildings,setSelectedBuildings] = useState<Building[]>([])
-
 
     useEffect(() => {
       toast.promise(
@@ -26,6 +25,23 @@ const AdminBoard: React.FC<DashBoardProps> = ({ setSelectedBuilding,setShowModif
       )
       
     }, [])
+    useEffect(() => {
+      if (!selectedBuilding)
+        return
+      if (!clean)
+        return
+        
+      const updatedBuildings = buildings.map((building) => {
+        if ( building.uuid === selectedBuilding.uuid){
+          return selectedBuilding
+        }
+        return building
+      })
+  
+      setBuildings(updatedBuildings)
+      setSelectedBuildings([]);
+      cleanList()
+    }, [clean])
 
     const filteredBuildings = useMemo(() => {
       return buildings.filter( building => building.name.toLowerCase().includes(searchValue.toLowerCase()))
@@ -47,12 +63,44 @@ const AdminBoard: React.FC<DashBoardProps> = ({ setSelectedBuilding,setShowModif
       setSearchValue(e.target.value);
     }, []);
 
+    function hadleDelete(){
+      if (selectedBuildings.length==0){
+        toast.error('Error: debe seleccionar edificios para eliminar', {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            });
+            return
+    }
+    selectedBuildings.forEach( ({uuid}) => {
+        deleteBuilding(uuid)
+    } )
+    }
+    function deleteBuilding(uuidDelete: string) {
+
+      toast.promise(
+          () => api.deleteBuilding(uuidDelete),
+          {
+            pending: 'Eliminando edificio',
+            success: 'Edificio eliminado correctamente 👌',
+            error: 'Hubo un error al eliminar el edificio 🤯'
+          }
+        ).then(() => {
+          setBuildings(buildings.filter( ({uuid}) => uuid!=uuidDelete  ))
+          setSelectedBuildings([])
+        });
+    }
     return (
       <div {...props}>
         <div className={styles.inputContainer}>
           <Input placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
           <div>
-            <Button $primary disabled={selectedBuildings.length==0} onClick={() => console.log(selectedBuildings[0].name)} >  <i className="icon-bin"/> Eliminar</Button>
+            <Button $primary disabled={selectedBuildings.length==0} onClick={hadleDelete} >  <i className="icon-bin"/> Eliminar</Button>
             <Button  $primary disabled={(selectedBuildings.length!==1)} onClick={() => { if(setSelectedBuilding) setSelectedBuilding(selectedBuildings[0]);setShowModifyScreen()}} >Modificar</Button>
           </div>
         </div>

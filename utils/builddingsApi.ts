@@ -10,7 +10,7 @@ interface BuildingData {
     lat: string;
     longitude: string;
     location: string;
-    image: string;
+    image?: string | File;
     period: string;
     city: string;
     architect: string;
@@ -41,7 +41,7 @@ export class Building {
         this.name = buildingData.name;
         this.location = { lat: parseFloat(buildingData.lat), lng: parseFloat(buildingData.longitude) };
         this.address = buildingData.location;
-        this.image = buildingData.image;
+        this.image = (typeof buildingData.image === 'string')? buildingData.image:'';
         this.period = buildingData.period;
         this.city = buildingData.city;
         this.architect = buildingData.architect;
@@ -56,9 +56,11 @@ export class Building {
     setName(name: string): void {
         this.name = name;
     }
+
     setArchitect(architect: string): void {
         this.architect = architect;
     }
+
     setState(state: string): void {
         this.state = state;
     }
@@ -146,22 +148,49 @@ export default class ArchytecstApi {
             });
     }
 
-    putBulding(building:Building){
-        const requestBody = JSON.stringify(generetaBuildingData(building));
-    
-        return fetch(`${apiUrl}buildings/${building.uuid}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: requestBody,
+    putBulding(building:BuildingData, uuid: string,imageUrl:string){
+        if (building.image instanceof File)
+            return postImage(building.image).
+                then( imageUrl => 
+                    {
+                        building.image=imageUrl
+
+                        const requestBody = JSON.stringify(building);
+
+                        return fetch(`${apiUrl}buildings/${uuid}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: requestBody,
+                            })
+                            .then(response => response.json())
+                            .then(data => data)
+                            .catch(error => {
+                            throw { success: false, error: error.message };
+                            });     
+                    })
+        
+        building.image = imageUrl;
+        console.log(building);
+        const requestBody = JSON.stringify(building);          
+        return fetch(`${apiUrl}buildings/${uuid}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: requestBody,
             })
-            .then(response => response.json() 
-            )
+            .then(response => response.json())
             .then(data => data)
             .catch(error => {
             throw { success: false, error: error.message };
-            });
+            }); 
+
+
+        
+    
+        
     }
 }
 

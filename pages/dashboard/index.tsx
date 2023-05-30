@@ -7,6 +7,7 @@ import styles from '@/styles/dashboard.module.sass'
 export default function DashBoard() {
   const [showModifyScreen,setShowModifyScreen] = useState<boolean>(false)
   const [selectedBuilding,setSelectedBuilding] = useState<Building>()
+  const [clean,setClean] = useState<boolean>(false)
 
   return (
     <>
@@ -17,8 +18,8 @@ export default function DashBoard() {
             <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <AdminBoard  setSelectedBuilding={setSelectedBuilding} className={ `${styles.screen}  ${showModifyScreen?styles.hideAdmin:styles.show}` } setShowModifyScreen={()=> setShowModifyScreen(true)}/>
-        <ModifyBoard building={selectedBuilding} className={ `${styles.screen} ${styles.modifyScreen} ${showModifyScreen?styles.show:styles.hideModify}` } setShowModifyScreen={()=> setShowModifyScreen(false)}/>
+        <AdminBoard cleanList={() => setClean(false)} clean={clean} setSelectedBuilding={setSelectedBuilding} selectedBuilding={selectedBuilding} className={ `${styles.screen}  ${showModifyScreen?styles.hideAdmin:styles.show}` } setShowModifyScreen={()=> setShowModifyScreen(true)}/>
+        <ModifyBoard cleanList={() => setClean(true)} setSelectedBuilding={setSelectedBuilding} selectedBuilding={selectedBuilding} className={ `${styles.screen} ${styles.modifyScreen} ${showModifyScreen?styles.show:styles.hideModify}` } setShowModifyScreen={()=> setShowModifyScreen(false)}/>
     </>
   ) 
 }
@@ -26,5 +27,7 @@ export default function DashBoard() {
 export interface DashBoardProps extends React.HTMLAttributes<HTMLDivElement> {
     setShowModifyScreen: () => void;
     setSelectedBuilding?: (building:Building ) => void;
-    building?: Building;
+    selectedBuilding?: Building;
+    cleanList: () =>void;
+    clean?: boolean;
 }
