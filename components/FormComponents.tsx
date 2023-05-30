@@ -1,191 +1,170 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, Input, Select } from "./assets";
 import styles from '@/styles/form.module.sass'
 
-type ComponentProps = {
-    id:string;
+type ButtonComponentProps = React.HTMLProps<HTMLDivElement> &{
+    onClick: () => void;
+    primary?:boolean;
+    text:string;
+    type: "button" | "submit" | "reset" | undefined;
+    right?: boolean;
 }
+
+export const ButtonComponent: React.FC<ButtonComponentProps> = ({onClick,primary,text,type,className,right,...props}) => {
+    
+    return(
+        <div {...props} className={`${styles.componentPadding} ${className}`}>
+            <Button type={type} className={` ${type==='submit'?styles.componentMargin:styles.margin}  ${right?styles.right:''}`} $primary={primary} onClick={onClick}>{text}</Button>
+            <br/>
+        </div>
+    );
+}
+
 type InputComponentProps = {
+    id:string;
     label:string;
     placeHolder: string[];
-    defaultValue?: string;
+    defaultValue?: string[] | string;
     onChange?: () => void;
     required?: boolean;
     readOnly?: boolean;
-}& ComponentProps;
+    value?: string;
+    invisible?: boolean
+}
 
-type ButtonComponentProps = {
-    onClick: () => void;
-    id:string;
-    primary?:boolean;
-    text:string;
-}& ComponentProps;
+export const InputComponent: React.FC<InputComponentProps> = ({id,label,placeHolder,defaultValue,onChange,required,readOnly,value,invisible,...props}) => {
+    //TODO: revisar bien asunto value y defaultvalue
+    return (
+        <>
+        {invisible?(
+        <Input
+            id={`form_data_${id}`}
+            name={id}
+            required={required}
+            readOnly={readOnly}
+            disabled={readOnly}
+            className={`${styles.input}`}
+            onChange={onChange}
+            value={value}
+            $notDisplay
+         />):
+        <ComponentWrapper label={label}>
+            <div className={styles.grid} style={{gridTemplateColumns:`repeat(${placeHolder?.length},1fr)` }} >
+                {placeHolder?.map( (placeHolder,index) =>
+                    <Input
+                        key={`${id} ${index}`}
+                        id={`form_data_${id} ${index}`}
+                        name={id}
+                        required={required}
+                        readOnly={readOnly}
+                        disabled={readOnly}
+                        className={`${styles.input}`}
+                        onChange={onChange}
+                        placeholder={placeHolder}
+                        defaultValue = {defaultValue instanceof Array? defaultValue[index]: defaultValue}
+                    />
+                )}
+            </div>
+        </ComponentWrapper>}
+        </>
+    );
+};
 
 type InputFileComponentProps ={
+    id:string;
     label:string;
     textButton: string;
     primary?: boolean;
     defaultValue?: string;
-}& ComponentProps;
+}
 
-type SelectComponentProps ={
-    label:string;
-    options: string[];
-    defaultValue?: string;
-}& ComponentProps;
+export const InputFileComponent: React.FC<InputFileComponentProps> = ({id,label,defaultValue,textButton,primary,...props}) => {
+    const inputFileRef = useRef<HTMLInputElement>(null);
+    const [fileName,setFileName] = useState<string>(defaultValue?'building.jpg':'(Imagen sin seleccionar)');
+    const [imageURL, setImageURL] = useState<string | null | undefined>(defaultValue);
+    const [showImage, setShowImage] = useState<Boolean>(false);
+    
+    useEffect(()=>{
+        setFileName(defaultValue?'building.jpg':'(Imagen sin seleccionar)')
+        setImageURL(defaultValue)
+    },[defaultValue])
+
+    const handleOnButtonClick = (event:React.MouseEvent<HTMLButtonElement, MouseEvent> | React.MouseEvent<HTMLElement, MouseEvent>) =>{
+        event.preventDefault();
+        if(inputFileRef.current){
+            inputFileRef.current.click() 
+        }
+    }
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (imageURL) {
+            URL.revokeObjectURL(imageURL);
+        }
+        
+        const file = event.target.files?.[0];
+        if (file) {
+            setFileName(file.name);
+            const url = URL.createObjectURL(file);
+            setImageURL(url);
+        } else {
+            setFileName('(Imagen sin seleccionar)');
+            setImageURL(null);
+        }
+    };
+
+  return (
+    <ComponentWrapper  label={label}>
+        <Input name={id} ref={inputFileRef} type='file' accept='image/*' id={`form_data_${id}`} $notDisplay className={`${styles.input}`} onChange={handleFileChange}/>
+        <Button $primary={primary} onClick={handleOnButtonClick}>{textButton}</Button>
+        <span onClick={() => setShowImage(!showImage) } style={{ userSelect:'none',cursor: imageURL?'pointer':'default'  }} >{` ${fileName}`}</span>
+        {imageURL && <><br/><img className={`${showImage?styles.imgShow:styles.img} `} src={imageURL} alt="Imagen seleccionada" /></>}   
+    </ComponentWrapper>
+  );
+};
 
 type InputDateComponentProps ={
+    id:string;
     label:string;
     defaultValue?:string;
     min:string;
     max:string;
+}
+
+export const InputDateComponent: React.FC<InputDateComponentProps> = ({id,label,defaultValue,min,max,...props}) => {
     
-}& ComponentProps;
-
-export interface Component{
-    props:ComponentProps;
-    render: () =>  React.JSX.Element;
-}
-
-export class ButtonComponent implements Component{
-    props:ButtonComponentProps;
-
-    constructor(props:ButtonComponentProps) {
-        this.props = props
-    }
-
-    render = (): React.ReactElement => {
-        return (
-            <div className={styles.componentPadding}>
-                <Button className={styles.margin} $primary={this.props.primary} onClick={this.props.onClick}>{this.props.text} </Button>
-                <br/>
-            </div>
-        )
-    };
-}
-
-export class InputComponent implements Component {
-    props:InputComponentProps;
-  
-    constructor(props: InputComponentProps) {
-      this.props = props;
-    }
-  
-    render = (): React.ReactElement => {
-      return (
-        <ComponentWrapper label={this.props.label}>
-
-        <div className={styles.grid} style={{gridTemplateColumns:`repeat(${this.props.placeHolder?.length},1fr)` }} >
-            {this.props.placeHolder?.map( (placeHolder,index) =>
-                <Input
-                key={`${this.props.id} ${index}`}
-                id={`${this.props.id} ${index}`}
-                required={this.props.required}
-                readOnly={this.props.readOnly}
-                disabled={this.props.readOnly}
-                className={`${styles.input}`}
-                onChange={this.props.onChange}
-                placeholder={placeHolder}
-                defaultValue={this.props.defaultValue ? this.props.defaultValue : ''}
-            />
-            )}
-        </div>
-            
+    return (
+        <ComponentWrapper label={label}>
+            <Input name={id} id={`form_data_${id}`} type="date" className={styles.input} min={min} max={max} defaultValue={defaultValue ? defaultValue : ''}/>
         </ComponentWrapper>
-      );
-    };
+    );
+};
+
+type SelectComponentProps ={
+    id:string;
+    label:string;
+    options: string[];
+    defaultValue?: string;
 }
 
-export class InputFileComponent implements Component {
-    props:InputFileComponentProps;
+export const SelectComponent: React.FC<SelectComponentProps> = ({id,label,options,defaultValue,...props}) => {
   
-    constructor(props: InputFileComponentProps) {
-      this.props = props;
-    }
-  
-    render = (): React.ReactElement => {
-        const inputFileRef = useRef<HTMLInputElement>(null);
-        const [fileName,setFileName] = useState<string>(this.props.defaultValue?'building.jpg':'(Imagen sin seleccionar)');
-        const [imageURL, setImageURL] = useState<string | null | undefined>(this.props.defaultValue);
-        const [showImage, setShowImage] = useState<Boolean>(false);
-        
-        const handleOnButtonClick = (event:React.MouseEvent<HTMLButtonElement, MouseEvent> | React.MouseEvent<HTMLElement, MouseEvent>) =>{
-            event.preventDefault();
-            if(inputFileRef.current){
-                inputFileRef.current.click() 
-            }
-        }
-
-        const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-            if (imageURL) {
-                URL.revokeObjectURL(imageURL);
-            }
-            
-            const file = event.target.files?.[0];
-            if (file) {
-                setFileName(file.name);
-                const url = URL.createObjectURL(file);
-                setImageURL(url);
-            } else {
-                setFileName('(Imagen sin seleccionar)');
-                setImageURL(null);
-            }
-        };
-
-
-
-      return (
-        <ComponentWrapper  label={this.props.label}>
-            <Input ref={inputFileRef} type='file' accept='image/*' id={this.props.id} $notDisplay className={`${styles.input}`} onChange={handleFileChange}/>
-            <Button $primary={this.props.primary} onClick={handleOnButtonClick}>{this.props.textButton}</Button>
-            <span onClick={() => setShowImage(!showImage) } style={{ userSelect:'none',cursor: imageURL?'pointer':'default'  }} >{` ${fileName}`}</span>
-            {imageURL && <><br/><img className={`${showImage?styles.imgShow:styles.img} `} src={imageURL} alt="Imagen seleccionada" /></>}   
-        </ComponentWrapper>
-      );
-    };
-}
-
-export class SelectComponent implements Component {
-    props:SelectComponentProps;
-  
-    constructor(props: SelectComponentProps) {
-      this.props = props;
-    }
-  
-    render = (): React.ReactElement => {
-      return (
-        <ComponentWrapper label={this.props.label}>
-            <Select id={this.props.id} className={`${styles.input}`} defaultValue={this.props.defaultValue ? this.props.defaultValue : ''}>
-                {this.props.options.map(option =>
+    return (
+        <ComponentWrapper label={label}>
+            <Select name={id} id={`form_data_${id}`} className={`${styles.input}`} defaultValue={defaultValue ? defaultValue : ''}>
+                {options.map((option :string ) =>
                     <option key={option}>{option}</option>    
                 )}
             </Select>
         </ComponentWrapper>
-      );
-    };
-}
-
-export class InputDateComponent implements Component{
-    props:InputDateComponentProps;
-
-    constructor(props:InputDateComponentProps) {
-        this.props = props
-    }
-
-    render = (): React.ReactElement => {
-        return (
-            <ComponentWrapper label={this.props.label}>
-                <Input id={this.props.id} type="date" className={styles.input} min={this.props.min} max={this.props.max} defaultValue={this.props.defaultValue ? this.props.defaultValue : ''}/>
-            </ComponentWrapper>
-        )
-    };
-}
+    );
+};
 
 type ComponentWrapperProps = React.PropsWithChildren<{
     label: string;
 }>;
   
-  const ComponentWrapper: React.FC<ComponentWrapperProps> = ({ children, label}) => {
+const ComponentWrapper: React.FC<ComponentWrapperProps> = ({ children, label}) => {
+    
     return (
         <div className={styles.component}>
             <span  className={styles.label} >{label} </span> <br/>
@@ -194,5 +173,5 @@ type ComponentWrapperProps = React.PropsWithChildren<{
             </div>
         </div>
     );
-  };
+};
 
