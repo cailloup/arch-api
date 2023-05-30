@@ -16,7 +16,7 @@ interface DragMenuHandle {
 
 export const DragMenu = forwardRef<DragMenuHandle, DragMenuProps>(({defaultWidth,children,free,hidden,screenRef},ref: Ref<DragMenuHandle>) => {
     const componentRef = React.useRef();
-    const [close, setClose] = useState(false);
+    const [close, setClose] = useState(true);
     const [hide, setHide] = useState(hidden?hidden:false);
     const [windowWidth, setWindowWidth] = useState<number | undefined>();
 
