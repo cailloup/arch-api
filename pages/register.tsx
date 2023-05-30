@@ -1,15 +1,26 @@
 import Head from 'next/head'
+import { toast } from "react-toastify";
 
 import Form from '@/components/form'
 import { DragMenu } from '@/components/dragMenu'
 import { buildingStyles, buildingTypes} from '@/utils/formfields'
 import { ButtonComponent, InputComponent, InputDateComponent, InputFileComponent, SelectComponent } from '@/components/FormComponents'
 import { useRef } from 'react'
+import ArchytecstApi from '@/utils/builddingsApi';
 
+const api = new ArchytecstApi()
 export default function RegisterBuilding() {
   const screenRef = useRef<HTMLDivElement>(null);
+  
   const handleSubmit = (data: any)=>{
-    console.log(data)
+    toast.promise(
+      () => api.postBuilding(data),
+      {
+        pending: 'Obteniendo edificios',
+        success: 'Edificios cargados correctamente 👌',
+        error: 'Hubo un error al cargar los edificios 🤯'
+      }
+    )
   }
 
   return (

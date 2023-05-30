@@ -25,7 +25,7 @@ type InputComponentProps = {
     label:string;
     placeHolder: string[];
     defaultValue?: string[] | string;
-    onChange?: () => void;
+    onChange?: (e: HTMLInputElement | undefined) => void;
     required?: boolean;
     readOnly?: boolean;
     value?: string;
@@ -38,14 +38,14 @@ export const InputComponent: React.FC<InputComponentProps> = ({id,label,placeHol
         <>
         {invisible?(
         <Input
+            key={`${id}`}
             id={`form_data_${id}`}
             name={id}
             required={required}
             readOnly={readOnly}
             disabled={readOnly}
             className={`${styles.input}`}
-            onChange={onChange}
-            value={value}
+            defaultValue={value}
             $notDisplay
          />):
         <ComponentWrapper label={label}>
@@ -59,7 +59,6 @@ export const InputComponent: React.FC<InputComponentProps> = ({id,label,placeHol
                         readOnly={readOnly}
                         disabled={readOnly}
                         className={`${styles.input}`}
-                        onChange={onChange}
                         placeholder={placeHolder}
                         defaultValue = {defaultValue instanceof Array? defaultValue[index]: defaultValue}
                     />
