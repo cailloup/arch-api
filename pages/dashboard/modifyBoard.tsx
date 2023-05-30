@@ -31,4 +31,4 @@ export const ModifyBoard: React.FC<DashBoardProps> = ({ building,setShowModifySc
           </Form>
       </div>
     )
-  }
+}
