@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { Button, Input } from "@/components/assets";
-import Table, { Header } from "@/components/table";
+import Table, { Header, TableData } from "@/components/table";
 import ArchytecstApi, { Building } from "@/utils/builddingsApi";
 import { DashBoardProps } from ".";
 import styles from '@/styles/dashboard.module.sass'
@@ -43,10 +43,9 @@ const AdminBoard: React.FC<DashBoardProps> = ({ cleanList,clean,setSelectedBuild
       cleanList()
     }, [clean])
 
-    const filteredBuildings = useMemo(() => {
-      return buildings.filter( building => building.name.toLowerCase().includes(searchValue.toLowerCase()))
-      .map( building => mapObjectWithColumns(building,headers))                   
-    }, [searchValue,buildings]);
+    function filterBuildings(data:TableData[]){
+      return data.filter( data => data.object.name.toLowerCase().includes(searchValue.toLowerCase()))                   
+    }
 
     const handleRowClick = useCallback((building: Building) => {
       setSelectedBuildings((prevSelectedBuildings) => {
@@ -106,23 +105,10 @@ const AdminBoard: React.FC<DashBoardProps> = ({ cleanList,clean,setSelectedBuild
         </div>
 
         <div  className={styles.tableContainer}>   
-          <Table headers={headers} data={filteredBuildings} onClick={handleRowClick} />
+          <Table  filterFunction={filterBuildings} multiselect headers={headers} data={buildings} onClick={handleRowClick} />
         </div>
       </div>
     )
-}
-
-function mapObjectWithColumns(originalObject: any, headers: Header[]) {
-    const columns:any = {};
-    headers.forEach(({field}) =>{
-      if (originalObject.hasOwnProperty(field)) {
-        columns[field] = originalObject[field];
-      }
-    })
-    return {
-      object: originalObject,
-      columns: columns
-    }
 }
   
 const headers = [

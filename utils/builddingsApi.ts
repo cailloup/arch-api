@@ -2,7 +2,7 @@ import { assests } from "./utils";
 
 const apiUrl='https://bold-crow-384002.rj.r.appspot.com/api/v1/'
 
-type BuildingType = "Vivienda" | "Religioso" | "Público" | "C. C. Municipal" | "Comercial" | "Educativo" | "Esparcimiento" | "Histórico" | "Hotelera" | "Municipal" | "Urbano" | "Otro" 
+export type BuildingType = "Vivienda" | "Religioso" | "Público" | "C. C. Municipal" | "Comercial" | "Educativo" | "Esparcimiento" | "Histórico" | "Hotelera" | "Municipal" | "Urbano" | "Otro" 
 
 interface BuildingData {
     uuid: string;

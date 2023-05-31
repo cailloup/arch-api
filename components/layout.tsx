@@ -5,7 +5,6 @@ import { BodyConainer } from "./assets";
 import { useState, createContext } from "react";
 import { ToastContainer } from "react-toastify";
 import { useLoadScript } from "@react-google-maps/api";
-import GoogleMapsConfig from "@/configs/mapsApi";
 
 export const ThemeContext = createContext({
   theme: 'default' as ThemesKey,

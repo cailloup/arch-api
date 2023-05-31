@@ -46,6 +46,9 @@ export const DragMenu = forwardRef<DragMenuHandle, DragMenuProps>(({defaultWidth
         }else{
             divElement.style.width= `${100 - defaultWidth}%`
         }
+        if(windowWidth<768){
+            divElement.style.width= `100%`
+        }
     },[hide])
 
     useEffect(()=>{

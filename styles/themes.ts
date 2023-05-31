@@ -1,3 +1,16 @@
+import { DefaultTheme } from 'styled-components';
+
+export interface MyTheme {
+  primary: string,
+  secondary: string,
+  secondaryContrast: string,
+  generalText: string,
+  primaryContrast: string,
+}
+
+declare module 'styled-components' {
+  export interface DefaultTheme extends MyTheme {}
+}
 
 
 const themes = {
