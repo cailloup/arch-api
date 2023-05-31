@@ -1,9 +1,31 @@
-import { DragMenu } from '@/components/dragMenu'
+import { DragMenu, DragMenuHandle } from '@/components/dragMenu'
 import Head from 'next/head'
-import { useRef } from 'react'
+import { useRef, useState,useEffect } from 'react'
+import  { BuildingSelector } from '@/components/gmaps/buildingSelector';
+import { GoogleMap } from '@react-google-maps/api';
+import CountySelector from '@/components/gmaps/countySelector';
+import { County } from '@/components/gmaps/gMapFunctions';
 
 export default function Home() {
   const screenRef = useRef<HTMLDivElement>(null);
+  const [county,setCounty] = useState<County | null>(null);
+  const [Building,setBuilding] = useState<any>(null);
+  const dragMenu = useRef<DragMenuHandle>(null);
+  
+  useEffect(() => {   //en caso de aprear escape regiistro
+    function handleEscapeKeyPress(event: { key: string; }) {
+      if (event.key === 'Escape') {
+        setCounty(null)
+      }
+    }
+    
+    document.addEventListener('keydown', handleEscapeKeyPress);
+    
+    return () => {
+      document.removeEventListener('keydown', handleEscapeKeyPress);
+    };
+  }, []); 
+
   return (
     <>
       <Head>
@@ -12,10 +34,14 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-        <div ref={screenRef} style={{  width:'60%', height:'100%', backgroundColor:'red', position:'absolute'}}>
-          <img style={{width:'100%', height:'100%'}} src="https://es.rollingstone.com/wp-content/uploads/2022/06/01-Pity-Alvarez-Diego-Spivacow-AFV-La-Nacion-Diego-Spivacow-AFVESP_AFV_111129_0105_xE_180313.jpg" alt="" />
+        <div ref={screenRef} style={{  width:'60%', height:'100%', position:'absolute'}}>
+        
+          <GoogleMap mapContainerStyle={{width: "100%", height: "100%"}}>
+            {county==null?<CountySelector setCounty={setCounty}/>:<BuildingSelector setBuilding={setBuilding}  selectedCounty={county}/>}
+          </GoogleMap>
+
         </div>
-        <DragMenu screenRef={screenRef} defaultWidth={40}>
+        <DragMenu ref={dragMenu} screenRef={screenRef} hidden defaultWidth={40}>
           <h1>HOLA</h1>
         </DragMenu>
     </>

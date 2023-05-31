@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Button, Input, Select } from "./assets";
+import { Button, Input, Select } from "../assets";
 import styles from '@/styles/form.module.sass'
 
 type ButtonComponentProps = React.HTMLProps<HTMLDivElement> &{

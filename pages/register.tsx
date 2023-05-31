@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import { toast } from "react-toastify";
 
-import Form from '@/components/form'
+import Form from '@/components/form/form'
 import { DragMenu } from '@/components/dragMenu'
 import { buildingStyles, buildingTypes} from '@/utils/utils'
-import { ButtonComponent, InputComponent, InputDateComponent, InputFileComponent, SelectComponent } from '@/components/FormComponents'
+import { ButtonComponent, InputComponent, InputDateComponent, InputFileComponent, SelectComponent } from '@/components/form/FormComponents'
 import { useRef } from 'react'
 import ArchytecstApi from '@/utils/builddingsApi';
 

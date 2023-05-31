@@ -2,14 +2,14 @@ import styles from "@/styles/dragMenu.module.sass"
 import React, { useState,forwardRef, useImperativeHandle, Ref, ReactNode, useEffect } from 'react';
 import { Container,LeftBarLine,LeftBar } from "./assets";
 
-interface DragMenuProps {
+export interface DragMenuProps {
     defaultWidth: number;
     free?: boolean;
     children?: ReactNode;
     hidden?:boolean
     screenRef: React.MutableRefObject<HTMLDivElement | null>;
   }
-interface DragMenuHandle {
+export interface DragMenuHandle {
     setClose: (value: boolean) => void;
     setHide: (value: boolean) => void;
   }
@@ -40,6 +40,24 @@ export const DragMenu = forwardRef<DragMenuHandle, DragMenuProps>(({defaultWidth
         const divElement = screenRef.current;
         if(!divElement || !windowWidth)
         return
+        
+        if(hide){
+            divElement.style.width='100%'
+        }else{
+            divElement.style.width= `${100 - defaultWidth}%`
+        }
+    },[hide])
+
+    useEffect(()=>{
+        const divElement = screenRef.current;
+        if(!divElement || !windowWidth)
+        return
+
+        if(hide){
+            divElement.style.width='100%'
+            return
+        }
+
         if(windowWidth<768){
             divElement.style.width='100%'
         }else{
