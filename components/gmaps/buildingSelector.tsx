@@ -1,6 +1,6 @@
 import themes, { MyTheme } from "@/styles/themes";
 import { Marker, Polygon, StreetViewPanorama, useGoogleMap } from "@react-google-maps/api";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { County, selectBuildingoptions } from "./gMapFunctions";
 import ArchytecstApi, { Building, BuildingType, assignColor } from "@/utils/builddingsApi";
 import { assests, buildingTypes } from "@/utils/utils";
@@ -82,9 +82,9 @@ export function BuildingSelector({ ...props }: BuildingSelectorProps) {
       }
     };
 
-    function handleBuildingSelect(building:Building){
-        props.setBuilding(building);
-    }
+    const handleBuildingSelect = useCallback((building:Building) => {
+      props.setBuilding(building);
+  }, [props.setBuilding]);
 
     return (
         <>
