@@ -32,7 +32,7 @@ export default function Home() {
     }, []);
     const filteredBuildings = useMemo(()=>{
       return buildings?.filter( (building) =>  building.name.toLowerCase().includes(searchValue.toLowerCase()) && filteredTypes.includes(building.type) )
-    },[buildings,filteredTypes])
+    },[buildings,filteredTypes,searchValue])
 
   return (
     <>
@@ -53,7 +53,7 @@ export default function Home() {
             {building  &&<BuildingCard building={building} />} 
             <Input style={{width:'100%', padding:'10px'}} placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
             <div style={{ width:'100%', flex: 1,overflowX:'hidden', overflowY:'auto'  }}>
-              <Table headers={headers} data={filteredBuildings} selectedData={building} setSelectData={setBuilding}/>
+              <Table headers={headers} data={filteredBuildings} selectedData={building} setSelectData={setBuilding} />
             </div>
           </div>
           }
