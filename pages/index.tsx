@@ -64,17 +64,18 @@ export default function Home() {
 
 const headers:Header[] = [{ field:'name',name:'Edificio' }]
 
-function BuildingCard({building}:{building:Building}){
+const BuildingCard = ({ building }: { building: Building }) => {
   return (            
-  <div className="buildingCard">
-    <img className="buildingPicture" src={building.image} alt="" />
-    <div className="buildingDescription">
-      <p>{building.name}</p>
-      <p>Año: {building.builtDate}</p>
-      <p>Constructor: {building.architect}</p>
-      <p>Ubicacion: {building.address}</p>
-      <p>Estilo: {building.style}</p>
-      <p>Tipo: {building.type}</p>
+    <div className="buildingCard">
+      <img className="buildingPicture" src={building.image} alt={building.name} />
+      <div className="buildingDescription">
+        <p>{building.name}</p>
+        <p>Año: {building.builtDate}</p>
+        <p>Constructor: {building.architect}</p>
+        <p>Ubicacion: {building.address}</p>
+        <p>Estilo: {building.style}</p>
+        <p>Tipo: {building.type}</p>
+      </div>
     </div>
-  </div>)
-}
+  );
+};
