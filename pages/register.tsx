@@ -49,10 +49,10 @@ export default function RegisterBuilding() {
     setLocation({ ...location, address:event.target.value});
   };
 
-  const handleMapChanges = (loc) => {
+  const handleMapChanges = (loc:any) => {
     console.log(loc)
     setLocation({...location,position:loc.position})
-  
+    const geocoder = new google.maps.Geocoder()
     if(!loc.address){
       geocoder.geocode({ location: loc.position }, (results, status) => {
         if (status === 'OK' && results) {
