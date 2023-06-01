@@ -6,10 +6,10 @@ import { GoogleMap } from '@react-google-maps/api';
 import CountySelector from '@/components/gmaps/countySelector';
 import { County } from '@/components/gmaps/gMapFunctions';
 import { Building, BuildingType, assignColor } from '@/utils/builddingsApi';
-import Table, { Header, TableData } from '@/components/table';
+import Table, { Header} from '@/components/table';
 import { Input } from '@/components/assets';
-import { assests, buildingTypes } from '@/utils/utils';
-import { useTheme } from 'styled-components';
+import { assests } from '@/utils/utils';
+
 export default function Home() {
   const screenRef = useRef<HTMLDivElement>(null);
   const [county,setCounty] = useState<County | null>(null);
@@ -18,7 +18,7 @@ export default function Home() {
   const [searchValue,setSearchValue] = useState<string>("")
   const dragMenu = useRef<DragMenuHandle>(null);
   const [filteredTypes,setFilteredTypes] = useState(assests.buildingTypes);
-  const theme = useTheme();
+
   useEffect(() => {   //building selected
       if(county){
         dragMenu.current?.setHide(false)
@@ -30,28 +30,10 @@ export default function Home() {
     const handleInputChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
       setSearchValue(e.target.value);
     }, []);
+    const filteredBuildings = useMemo(()=>{
+      return buildings?.filter( (building) =>  building.name.toLowerCase().includes(searchValue.toLowerCase()) && filteredTypes.includes(building.type) )
+    },[buildings,filteredTypes])
 
-    function filteredBuildings(tableData:TableData[])
-    {
-      return tableData.filter( td => td.object.name.toLowerCase().includes(searchValue.toLowerCase()) && filteredTypes.includes(td.object.type))
-    }
-    function  getQuantityTypes(buildingType:BuildingType){
-      let count = 0;
-      buildings?.forEach(({type}) => {if( type==buildingType){count++}})
-      return count
-    }
-    function toggleType(type:string){
-      const index = filteredTypes.indexOf(type);
-      if (index !== -1) {
-        // El tipo ya está presente, lo eliminamos
-        const updatedTypes = [...filteredTypes];
-        updatedTypes.splice(index, 1);
-        setFilteredTypes(updatedTypes);
-      } else {
-        // El tipo no está presente, lo insertamos
-        setFilteredTypes([...filteredTypes, type]);
-      }
-    };
   return (
     <>
       <Head>
@@ -62,43 +44,17 @@ export default function Home() {
       </Head>
         <div ref={screenRef} style={{  width:'60%', height:'100%', position:'absolute'}}>
           <GoogleMap mapContainerStyle={{width: "100%", height: "100%"}}>
-            {county==null?<CountySelector setCounty={setCounty}/>:<BuildingSelector filterBuildings={filteredBuildings} building={building} buildings={buildings} setBuildings={setBuildings} scapeDown={() => {setCounty(null); setBuilding(null) } } setBuilding={setBuilding}  selectedCounty={county}/>}
-          
-            {(county && buildings) && 
-                <div className="referencesContainer" style={{backgroundColor:theme.primary}}>
-                    { buildingTypes.filter(type => getQuantityTypes(type)>0).map( reference => 
-                      <div key={reference} className="reference">
-                        <div onClick={() => toggleType(reference)} className="referencesSquare" style={ {borderColor:assignColor(reference),  backgroundColor: filteredTypes.includes(reference)?assignColor(reference):"transparent"}}>  </div>
-                        <p style={{color: assignColor(reference)}}>{reference}: {getQuantityTypes(reference)}</p>
-                      </div> )
-                      }
-              </div>}
+            {county==null?<CountySelector setCounty={setCounty}/>:<BuildingSelector setFilteredTypes={setFilteredTypes} building={building} buildings={filteredBuildings} setBuildings={setBuildings} scapeDown={() => {setCounty(null); setBuilding(null) } } setBuilding={setBuilding}  selectedCounty={county}/>}
           </GoogleMap>
         </div>
         <DragMenu ref={dragMenu} screenRef={screenRef} hidden defaultWidth={40}>
-         
-          {buildings && 
+          {filteredBuildings && 
           <div style={{display:'flex', flexDirection:'column', height:'100%'}  }>
-            {building && buildings &&
-            <div className="buildingCard">
-              <img className="buildingPicture" src={building.image} alt="" />
-              <div className="buildingDescription">
-                <p>{building.name}</p>
-                <p>Año: {building.builtDate}</p>
-                <p>Constructor: {building.architect}</p>
-                <p>Ubicacion: {building.address}</p>
-                <p>Estilo: {building.style}</p>
-                <p>Tipo: {building.type}</p>
-              </div>
+            {building  &&<BuildingCard building={building} />} 
+            <Input style={{width:'100%', padding:'10px'}} placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
+            <div style={{ width:'100%', flex: 1,overflowX:'hidden', overflowY:'auto'  }}>
+              <Table headers={headers} data={filteredBuildings} selectedData={building} setSelectData={setBuilding}/>
             </div>
-            } 
-            <>
-              <Input style={{width:'100%', padding:'10px'}} placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
-              <div style={{ width:'100%', flex: 1,overflowX:'hidden', overflowY:'auto'  }}>
-                <Table headers={headers} data={buildings} selectData={building} onClick={(building)=>{setBuilding(building)}} filterFunction={filteredBuildings} />
-              </div>
-            </>
-            
           </div>
           }
         </DragMenu>
@@ -106,5 +62,19 @@ export default function Home() {
   )
 }
 
-const headers =[{ field:'name',name:'Edificio' }]
+const headers:Header[] = [{ field:'name',name:'Edificio' }]
 
+function BuildingCard({building}:{building:Building}){
+  return (            
+  <div className="buildingCard">
+    <img className="buildingPicture" src={building.image} alt="" />
+    <div className="buildingDescription">
+      <p>{building.name}</p>
+      <p>Año: {building.builtDate}</p>
+      <p>Constructor: {building.architect}</p>
+      <p>Ubicacion: {building.address}</p>
+      <p>Estilo: {building.style}</p>
+      <p>Tipo: {building.type}</p>
+    </div>
+  </div>)
+}

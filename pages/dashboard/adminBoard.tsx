@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
 import { Button, Input } from "@/components/assets";
-import Table, { Header, TableData } from "@/components/table";
+import Table, { Header} from "@/components/table";
 import ArchytecstApi, { Building } from "@/utils/builddingsApi";
 import { DashBoardProps } from ".";
 import styles from '@/styles/dashboard.module.sass'
@@ -42,21 +42,9 @@ const AdminBoard: React.FC<DashBoardProps> = ({ cleanList,clean,setSelectedBuild
       setSelectedBuildings([]);
       cleanList()
     }, [clean])
-
-    function filterBuildings(data:TableData[]){
-      return data.filter( data => data.object.name.toLowerCase().includes(searchValue.toLowerCase()))                   
-    }
-
-    const handleRowClick = useCallback((building: Building) => {
-      setSelectedBuildings((prevSelectedBuildings) => {
-        const isRowSelected = prevSelectedBuildings.map(({uuid}) => uuid).includes(building.uuid)
-        if (isRowSelected) {
-          return prevSelectedBuildings.filter(({uuid}) => uuid !== building.uuid)
-        } else {
-          return [...prevSelectedBuildings, building]
-        }
-      })
-    }, [])
+    const fiteredBuildings = useMemo(()=>{  
+      return buildings.filter(building => building.name.toLowerCase().includes(searchValue.toLowerCase()))
+    },[buildings,searchValue]) 
 
     const handleInputChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
       setSearchValue(e.target.value);
@@ -105,13 +93,13 @@ const AdminBoard: React.FC<DashBoardProps> = ({ cleanList,clean,setSelectedBuild
         </div>
 
         <div  className={styles.tableContainer}>   
-          <Table  filterFunction={filterBuildings} multiselect headers={headers} data={buildings} onClick={handleRowClick} />
+          <Table multiselect headers={headers} data={fiteredBuildings} setSelectData={setSelectedBuildings} selectedData={selectedBuildings}/>
         </div>
       </div>
     )
 }
   
-const headers = [
+const headers:Header[] = [
     {field:"name",name:"Nombre"},
     {field:"address",name:"Direccion"},
     {field:"period",name:"epoca"},
