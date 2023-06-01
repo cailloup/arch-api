@@ -1,5 +1,5 @@
 import { Autocomplete, Marker, Polygon, useGoogleMap } from "@react-google-maps/api";
-import { useEffect, useState } from "react";
+import { ReactChild, useEffect, useState } from "react";
 import { County, selectBuildingoptions,Location } from "./gMapFunctions";
 
 interface AddressSelectorProps {
@@ -59,32 +59,57 @@ export default function AddressSelector({ ...props }: AddressSelectorProps) {
         )
 }
 
-export function InputMap({onTextChange,children,bounds}){
-    const [autocomplete, setAutocomplete] = useState(null);
-  
-    return(
-      <Autocomplete
-                  bounds={!bounds ? undefined : bounds}
-                  
-                  onLoad={(auto) =>  setAutocomplete(auto)}
-                  onPlaceChanged={() => {
-                    const place = autocomplete.getPlace();
-                    if (place.geometry) {
-                      const newPosition = {
-                        lat: place.geometry.location.lat(),
-                        lng: place.geometry.location.lng(),
-                      };
-                      const location = { position: newPosition, address: place.formatted_address };
-                      onTextChange(location);
-                    } else {
-                      console.error('No se ha encontrado la dirección seleccionada');
-                    }
-                  }}
-                  options={!bounds? undefined:{strictBounds: true}}  
-                  
-            >
-            {children}
-              
-      </Autocomplete>
-    )
-  }
+
+interface AutocompleteResult {
+  address: string;
+  position: {
+      lat: number;
+      lng: number;
+    };
+}
+
+interface InputMapProps {
+  onTextChange: (location: AutocompleteResult) => void;
+  children: ReactChild;
+  bounds?: {
+    north: number;
+    south: number;
+    east: number;
+    west: number;
+  };
+}
+
+export function InputMap({ onTextChange, children, bounds }: InputMapProps) {
+  const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
+
+  const handlePlaceChanged = () => {
+    if (!autocomplete) return;
+
+    const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+    if (place.geometry?.location) {
+      const newPosition = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng(),
+      };
+      if( place.formatted_address){
+
+      const location: AutocompleteResult = { position: newPosition, address: place.formatted_address };
+      onTextChange(location);
+    }
+    } else {
+      console.error('No se ha encontrado la dirección seleccionada');
+    }
+  };
+
+  return (
+    <Autocomplete
+      bounds={!bounds ? undefined : bounds}
+      onLoad={(auto) => setAutocomplete(auto)}
+      onPlaceChanged={handlePlaceChanged}
+      options={!bounds ? undefined : { strictBounds: true }}
+    >
+      {children}
+    </Autocomplete>
+  );
+}
