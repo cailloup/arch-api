@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { ChangeEventHandler, useEffect, useRef, useState } from "react";
 import { Button, Input, Select } from "../assets";
 import styles from '@/styles/form.module.sass'
 
@@ -25,7 +25,7 @@ type InputComponentProps = {
     label:string;
     placeHolder: string[];
     defaultValue?: string[] | string;
-    onChange?: (e: HTMLInputElement | undefined) => void;
+    onChange?: ChangeEventHandler<HTMLInputElement>;
     required?: boolean;
     readOnly?: boolean;
     value?: string;
@@ -49,6 +49,24 @@ export const InputComponent: React.FC<InputComponentProps> = ({id,label,placeHol
             $notDisplay
          />):
         <ComponentWrapper label={label}>
+            {value?
+            <div className={styles.grid} style={{gridTemplateColumns:`repeat(${placeHolder?.length},1fr)` }} >
+                {placeHolder?.map( (placeHolder,index) =>
+                    <Input
+                        key={`${id} ${index}`}
+                        id={`form_data_${id} ${index}`}
+                        name={id}
+                        required={required}
+                        readOnly={readOnly}
+                        disabled={readOnly}
+                        className={`${styles.input}`}
+                        placeholder={placeHolder}
+                        value = {value}
+                        onChange={onChange}
+                    />
+                )}
+             </div>
+             :
             <div className={styles.grid} style={{gridTemplateColumns:`repeat(${placeHolder?.length},1fr)` }} >
                 {placeHolder?.map( (placeHolder,index) =>
                     <Input
@@ -63,7 +81,7 @@ export const InputComponent: React.FC<InputComponentProps> = ({id,label,placeHol
                         defaultValue = {defaultValue instanceof Array? defaultValue[index]: defaultValue}
                     />
                 )}
-            </div>
+            </div>}
         </ComponentWrapper>}
         </>
     );

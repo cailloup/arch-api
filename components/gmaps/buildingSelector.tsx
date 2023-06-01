@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import { Button } from "../assets";
 import { useTheme } from 'styled-components';
 
-
 interface BuildingSelectorProps {
     setBuilding: (building:any) => void;
     selectedCounty: County;
@@ -72,7 +71,6 @@ export function BuildingSelector({ ...props }: BuildingSelectorProps) {
             
         {props.building && !streetView && <Button style={{marginLeft:'15px'}} $primary onClick={() => setStreetView(!streetView) }> StreetView </Button>}
         </div>
-            
            
             { props.building && <StreetViewPanorama options={{position:props.building.location , visible:streetView, enableCloseButton:false,addressControl:false  } } />}
             {props.buildings &&props.filterBuildings(props.buildings.map( b => ({object:b}) )).map( ({object}:{ object: Building }) => (
@@ -99,8 +97,5 @@ export function BuildingSelector({ ...props }: BuildingSelectorProps) {
                       fillColor: "transparent",
                       fillOpacity: 0,
                     }}/>
-
-                
-            
         </>)
 }

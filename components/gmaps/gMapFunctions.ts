@@ -1,6 +1,9 @@
 
     /**/
-
+export type Location = {
+    address?: string; 
+    position?:google.maps.LatLngLiteral;
+}
 
 const defaultCenter = {lat:-37.518117149999995, lng:-57.60741988408909}
 
