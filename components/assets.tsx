@@ -9,6 +9,9 @@ interface DivProps extends React.HTMLAttributes<HTMLElement> {
 interface InputProps extends React.HTMLAttributes<HTMLElement> {
     $notDisplay?: boolean;
 }
+interface colorProps extends React.HTMLAttributes<HTMLElement> {
+    $color: 'primary' | 'secondary';
+}
 
 function changeRGBToRGBA(rgbColor:string,target:number): string{
     // Extraer los valores R, G y B del color RGB
@@ -252,3 +255,17 @@ export const BodyConainer = styled.main`
             cursor: not-allowed;
         }
     `;
+    
+export const ContainerColor = styled.div<colorProps>`
+    i{;
+        color:${props => props.theme.secondary};
+    }
+    ${props => props.$color == 'primary' && css`
+        
+        i{;
+            color:${props => props.theme.primaryContrast};
+        }
+    `}
+`;
+
+
