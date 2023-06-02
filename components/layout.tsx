@@ -41,7 +41,7 @@ export default function Layout({children}: {children: React.ReactNode;}) {
           <NavBar/>
             <BodyConainer>
               <ThemeContext.Provider value={{ theme, setTheme }}>
-                {children}
+{isLoaded?<>{children}</>:<Loading/>}
               </ThemeContext.Provider>
             </BodyConainer>
         </ThemeProvider>
