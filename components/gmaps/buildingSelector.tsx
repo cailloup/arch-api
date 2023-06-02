@@ -21,7 +21,6 @@ interface BuildingSelectorProps {
 export function BuildingSelector({ ...props }: BuildingSelectorProps) {
     const map = useGoogleMap()
     const api = new ArchytecstApi()
-    const [streetView, setStreetView] = useState(false)
     const [filteredTypes,setFilteredTypes] = useState(assests.buildingTypes);
     const theme = useTheme();
     const [allTypes,setTypes] = useState<string[]>([])
@@ -86,15 +85,22 @@ export function BuildingSelector({ ...props }: BuildingSelectorProps) {
       props.setBuilding(building);
   }, [props.setBuilding]);
 
+  function onBackClik(){
+    if(props.building){
+      props.setBuilding(null);
+    }else{
+      props.scapeDown()
+    }
+  }
+
     return (
         <>
         <div className='button-back'>
-        <Button $primary onClick={()=> {  streetView?setStreetView(!streetView):props.scapeDown()}} > Volver </Button>
+        <Button $primary onClick={onBackClik}> Volver </Button>
             
-        {props.building && !streetView && <Button style={{marginLeft:'15px'}} $primary onClick={() => setStreetView(!streetView) }> StreetView </Button>}
         </div>
            
-            {props.building && <StreetViewPanorama options={{position:props.building.location , visible:streetView, enableCloseButton:false,addressControl:false  } } />}
+            {props.building && <StreetViewPanorama options={{position:props.building.location , visible:true, enableCloseButton:false,addressControl:false  } } />}
             {props.buildings && props.buildings.map( building => (
                   <Marker
                     icon={assests.icons.mapPoint( building.refColor )}
@@ -119,14 +125,14 @@ export function BuildingSelector({ ...props }: BuildingSelectorProps) {
                       fillColor: "transparent",
                       fillOpacity: 0,
                     }}/>
-                    { props.buildings && 
+                    { props.buildings && props.buildings.length>1 &&
                       <div className="referencesContainer" style={{backgroundColor:theme.primary}}>
                           { buildingTypes.filter(type => getQuantityTypes(type)>0).map( reference => 
                             <div key={reference} className="reference">
                               <div onClick={() => toggleType(reference)} className="referencesSquare" style={ {borderColor:assignColor(reference),  backgroundColor: filteredTypes.includes(reference)?assignColor(reference):"transparent"}}>  </div>
                               <p style={{color: assignColor(reference)}}>{reference}: {getQuantityTypes(reference)}</p>
                             </div> )
-                            }
+                          }
                     </div>}
         </>)
 }

@@ -7,7 +7,7 @@ import CountySelector from '@/components/gmaps/countySelector';
 import { County } from '@/components/gmaps/gMapFunctions';
 import { Building, BuildingType, assignColor } from '@/utils/builddingsApi';
 import Table, { Header} from '@/components/table';
-import { Input } from '@/components/assets';
+import { Button, Input } from '@/components/assets';
 import { assests } from '@/utils/utils';
 
 export default function Home() {
@@ -50,11 +50,14 @@ export default function Home() {
         <DragMenu ref={dragMenu} screenRef={screenRef} hidden defaultWidth={40}>
           {filteredBuildings && 
           <div style={{display:'flex', flexDirection:'column', height:'100%'}  }>
-            {building  &&<BuildingCard building={building} />} 
-            <Input style={{width:'100%', padding:'10px'}} placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
-            <div style={{ width:'100%', flex: 1,overflowX:'hidden', overflowY:'auto'  }}>
-              <Table headers={headers} data={filteredBuildings} selectedData={building} setSelectData={setBuilding} />
-            </div>
+            {building?<BuildingCard building={building}/>: 
+            <>
+              <Input style={{width:'100%', padding:'10px'}} placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
+              <div style={{ width:'100%', flex: 1,overflowX:'hidden', overflowY:'auto'  }}>
+                <Table headers={headers} data={filteredBuildings} selectedData={building} setSelectData={setBuilding} />
+              </div>
+            </>
+            }
           </div>
           }
         </DragMenu>
@@ -75,6 +78,8 @@ const BuildingCard = ({ building }: { building: Building }) => {
         <p>Ubicacion: {building.address}</p>
         <p>Estilo: {building.style}</p>
         <p>Tipo: {building.type}</p>
+        <p>Epoca: {building.period}</p>
+        <p>Proteccion: {building.isProtected.info}</p>
       </div>
     </div>
   );
