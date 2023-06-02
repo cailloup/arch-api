@@ -93,9 +93,10 @@ type InputFileComponentProps ={
     textButton: string;
     primary?: boolean;
     defaultValue?: string;
+    required?: boolean;
 }
 
-export const InputFileComponent: React.FC<InputFileComponentProps> = ({id,label,defaultValue,textButton,primary,...props}) => {
+export const InputFileComponent: React.FC<InputFileComponentProps> = ({id,label,defaultValue,textButton,primary,required,...props}) => {
     const inputFileRef = useRef<HTMLInputElement>(null);
     const [fileName,setFileName] = useState<string>(defaultValue?'building.jpg':'(Imagen sin seleccionar)');
     const [imageURL, setImageURL] = useState<string | null | undefined>(defaultValue);

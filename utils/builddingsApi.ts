@@ -82,10 +82,14 @@ export default class ArchytecstApi {
 
     postBuilding(buildingData:BuildingData){
 
-        if (!(buildingData.image instanceof File)) //TODO ver errores por 
-            throw new Error('No se encontro el archivo')
+        if (!(buildingData.image instanceof File)){ //TODO ver errores por 
+            return new Promise((resolve, reject) => {
+                reject(new Error('No se encontró el archivo'));
+            })
+        }
         return postImage(buildingData.image)
                 .then(url => {
+                    
                     const requestBody = JSON.stringify({...buildingData,image:url});
                     fetch(`${apiUrl}building`, {
                         method: 'POST',
