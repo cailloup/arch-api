@@ -1,6 +1,5 @@
 import React, {useRef} from 'react';
 import styles from '@/styles/form.module.sass'
-import { log } from 'util';
 
 type FormProps = React.HTMLProps<HTMLFormElement> & {
     onSubmit: (data: any) => void;
@@ -11,7 +10,7 @@ const Form: React.FC<FormProps> = ({onSubmit,children,...props }) =>{
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        let error = '';
+        
         const data: any = Array.from(formRef.current?.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input[id^="form_data_"], select[id^="form_data_"]') ?? [])
             .reduce((acc: any, element: HTMLInputElement | HTMLSelectElement) => {
                 const componentname = element.name;
@@ -20,8 +19,6 @@ const Form: React.FC<FormProps> = ({onSubmit,children,...props }) =>{
                 if (componentType == 'file') {
                 if (element instanceof HTMLInputElement && element.files?.length) {
                     acc[componentname] = element.files[0];
-                }else{
-                    error = 'Mete foto'
                 }
                 } else {
                     acc[componentname] = acc[componentname]?acc[componentname] + ' ' + element.value: element.value;
@@ -29,14 +26,8 @@ const Form: React.FC<FormProps> = ({onSubmit,children,...props }) =>{
             
                 return acc;
             }, {});
-            console.log(error);
-            
-            if (error == ''){
-                onSubmit(data);
-            }else{
-                alert(error);
-            }
-        
+      
+        onSubmit(data);
     };
 
     return (
