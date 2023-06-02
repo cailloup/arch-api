@@ -11,20 +11,19 @@ export const assests = {
     audios: {
                 vela: "/fragment.mp3",
             },
-
     colors: {
-        red:"#FAEDCB",
-        green:"#C9E4DE",
-        blue:"#C6DEF1",
-        purple:"#DBCDF0",
-        yellow:"#F2C6DE" ,
-        orange:"#FFADAD",
-        pink:"#F7D9C4",
-        seagreen: "#E4F1EE",
-        darkgreen: "#FFD6A5",
-        lightblue: "#FDFFB6",
-        beige: "#D9EDF8",
-        lilac: "#DEDAF4"
+        red: "#FF6347",
+        green: "#00FF7F",
+        blue: "#4169E1",
+        purple: "#8A2BE2",
+        yellow: "#FFD700",
+        orange: "#FF8C00",
+        pink: "#FF69B4",
+        seagreen: "#2E8B57",
+        darkgreen: "#006400",
+        lightblue: "#ADD8E6",
+        beige: "#F5F5DC",
+        lilac: "#C8A2C8"
     },
     buildingTypes:["C. C. Municipal","Comercial","Educativo","Esparcimiento","Histórico","Hotelera","Municipal","Público","Religioso","Urbano","Vivienda","Otro"],
     icons:{
