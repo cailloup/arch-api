@@ -19,10 +19,7 @@ export default function Layout({children}: {children: React.ReactNode;}) {
     googleMapsApiKey:'AIzaSyATNDswrRQLqhoxDwYh9B9W0Jp90NVGcEY'
   });
   const [theme, setTheme] = useState('default' as ThemesKey);
-  if(!isLoaded)
-  return (
-    <> <h1>I am waiting for...</h1> </>
-  )
+  
     return (
       <>
           <ToastContainer
