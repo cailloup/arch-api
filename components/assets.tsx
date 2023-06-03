@@ -257,12 +257,13 @@ export const BodyConainer = styled.main`
     `;
     
 export const ContainerColor = styled.div<colorProps>`
-    i{;
+color:${props => props.theme.secondary};
+    i,*{
         color:${props => props.theme.secondary};
     }
     ${props => props.$color == 'primary' && css`
-        
-        i{;
+    color:${props => props.theme.primaryContrast};
+        i,*{
             color:${props => props.theme.primaryContrast};
         }
     `}
