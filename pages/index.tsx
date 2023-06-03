@@ -42,25 +42,25 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-        <div ref={screenRef} style={{  width:'60%', height:'100%', position:'absolute'}}>
-          <GoogleMap mapContainerStyle={{width: "100%", height: "100%"}}>
-            {county==null?<CountySelector setCounty={setCounty}/>:<BuildingSelector setFilteredTypes={setFilteredTypes} building={building} buildings={filteredBuildings} setBuildings={setBuildings} scapeDown={() => {setCounty(null); setBuilding(null) } } setBuilding={setBuilding}  selectedCounty={county}/>}
-          </GoogleMap>
-        </div>
-        <DragMenu ref={dragMenu} screenRef={screenRef} hidden defaultWidth={40}>
-          {filteredBuildings && 
-          <div style={{display:'flex', flexDirection:'column', height:'100%'}  }>
-            {building?<BuildingCard building={building}/>: 
-            <>
-              <Input style={{width:'100%', padding:'10px'}} placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
-              <div style={{ width:'100%', flex: 1,overflowX:'hidden', overflowY:'auto'  }}>
-                <Table headers={headers} data={filteredBuildings} selectedData={building} setSelectData={setBuilding} />
-              </div>
-            </>
-            }
-          </div>
+      <div ref={screenRef} style={{  width:'60%', height:'100%', position:'absolute'}}>
+        <GoogleMap mapContainerStyle={{width: "100%", height: "100%"}}>
+          {county==null?<CountySelector setCounty={setCounty}/>:<BuildingSelector setFilteredTypes={setFilteredTypes} building={building} buildings={filteredBuildings} setBuildings={setBuildings} scapeDown={() => {setCounty(null); setBuilding(null) } } setBuilding={setBuilding}  selectedCounty={county}/>}
+        </GoogleMap>
+      </div>
+      <DragMenu ref={dragMenu} screenRef={screenRef} hidden defaultWidth={40}>
+        {filteredBuildings && 
+        <div style={{display:'flex', flexDirection:'column', height:'100%'}  }>
+          {building?<BuildingCard building={building}/>: 
+          <>
+            <Input style={{width:'100%', padding:'10px'}} placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
+            <div style={{ width:'100%', flex: 1,overflowX:'hidden', overflowY:'auto'  }}>
+              <Table headers={headers} data={filteredBuildings} selectedData={building} setSelectData={setBuilding} />
+            </div>
+          </>
           }
-        </DragMenu>
+        </div>
+        }
+      </DragMenu>
     </>
   )
 }
