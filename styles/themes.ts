@@ -30,8 +30,8 @@ const themes = {
       primaryContrast: 'rgb(41, 134, 204)',
     },
     dark: {
-      primary: 'rgb(24, 24, 24)',
-      secondary: "rgb(31, 31, 31)",
+      primary: 'rgb(31, 31, 31)',
+      secondary: "rgb(22, 22, 22)",
       generalText: 'rgb(255, 255, 255)',
       secondaryContrast: 'rgb(255, 255, 255)',
       primaryContrast:'rgb(255, 255, 255)',
