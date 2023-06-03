@@ -3,7 +3,7 @@ import { useCallback, useContext } from 'react'
 import { ThemesKey } from '@/styles/themes'
 import {ThemeContext } from '@/components/layout'
 import { Select } from '@/components/assets';
-import { title } from 'process';
+
 export default function Home() {
   const { theme, setTheme} = useContext(ThemeContext);
   
@@ -22,7 +22,6 @@ export default function Home() {
       </Head>
       <div className='container-centered'>
         <h1>Selector de temas</h1>
-          
           <Select  style={{width:'250px', fontSize:'20px'}} defaultValue={theme} onChange={({currentTarget}) => changeTheme(currentTarget.value as ThemesKey)} name="" id="">
             <option value={'default'}> Default</option>
             <option value={'dark'}> dark</option>
