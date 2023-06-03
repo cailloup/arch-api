@@ -31,15 +31,16 @@ export default function AddressSelector({ ...props }: AddressSelectorProps) {
                 console.error('Geocode was not successful for the following reason: ' + status);
             }
         })
+       
     }
 
     useEffect( ()=>{
        if(props.markerPosition){
             setMarkerPosition(props.markerPosition)
+            map?.setZoom(17);
+            map?.panTo(props.markerPosition)
        }
-
     },[props.markerPosition] )
-
 
     return (
         <>
