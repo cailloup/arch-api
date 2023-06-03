@@ -92,11 +92,11 @@ export default function RegisterBuilding() {
             <InputComponent required id='name' label='Nombre' placeHolder={['Ingrese nombre del edificio']}/>
             <InputComponent id='architect' label='Arquitecto' placeHolder={['Ingrese nombre del arquitecto','Ingrese apellido del arquitecto']}/>
             <InputComponent id='state' label='Estado' placeHolder={['Ingrese estado del edificio']}/>
-            <InputComponent id='period' label='Epoca' placeHolder={['Ingrese epoca de edificio']}/>
+            <InputComponent id='period' label='Epoca' placeHolder={['Ingrese época del edificio']}/>
             <InputFileComponent required id='image' label='Imagen edificio' textButton='Seleccionar imagen'/>
             <SelectComponent id='type' label='Tipo' options={buildingTypes} />
             <SelectComponent id='style' label='Estilo' options={buildingStyles} />
-            <InputComponent id='isProtected' label='Proteccion' placeHolder={['Ingrese proteccion del edificio']}/>
+            <InputComponent id='isProtected' label='Proteccion' placeHolder={['Ingrese protección del edificio']}/>
             <InputDateComponent id='builtDate' label='Fecha de contruccion' min='12-02-1800' max={new Date().toISOString().split("T")[0]} defaultValue={new Date().toISOString().split("T")[0]}/>
             <ButtonComponent type='submit' onClick={()=> {}} primary right text='Registrar edificio'/>
           </Form>
