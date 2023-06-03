@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import { toast } from "react-toastify";
-
 import Form from '@/components/form/form'
 import { DragMenu, DragMenuHandle } from '@/components/dragMenu'
 import { buildingStyles, buildingTypes} from '@/utils/utils'
