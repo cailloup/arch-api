@@ -5,7 +5,6 @@ import { BuildingType, assignColor } from '@/utils/builddingsApi';
 import { Input } from '@/components/assets';
 import { ChangeEvent, ChangeEventHandler } from 'react';
 
-
 type BuildingFilterProps = {
   filteredTypes: any;
   setFilteredTypes: any;
@@ -41,8 +40,8 @@ export const BuildingsFilter: React.FC<BuildingFilterProps> = ({hide,filteredTyp
       <h3>Tipopologia edilica</h3>
       <div className={styles.typesConainer}>
           {assests.buildingTypes.filter((type) => getQuantityTypes(type as BuildingType)>0).map( (type)  =>
-              <div key={type} className="reference"  >
-                  <div onClick={() => toggleType(type as BuildingType)} className="referencesSquare" style={ {borderColor:assignColor(type as BuildingType),  backgroundColor: filteredTypes.includes(type)?assignColor(type as BuildingType):"transparent"}}>  </div>
+              <div key={type} className={styles.reference} >
+                  <div onClick={() => toggleType(type as BuildingType)} className={styles.referencesSquare} style={ {borderColor:assignColor(type as BuildingType),  backgroundColor: filteredTypes.includes(type)?assignColor(type as BuildingType):"transparent"}}>  </div>
                   <p onClick={() => toggleType(type as BuildingType)} style={{cursor: 'pointer'}}>{type}:{getQuantityTypes(type as BuildingType)}</p>
               </div> 
               )}

@@ -9,7 +9,7 @@ import { Building } from '@/utils/builddingsApi';
 import Table, { Header} from '@/components/table';
 import { Button, Input, TextButton } from '@/components/assets';
 import { assests } from '@/utils/utils';
-import { BuildingsFilter } from '../components/test';
+import { BuildingsFilter } from '../components/filters';
 
 export default function Home() {
   const screenRef = useRef<HTMLDivElement>(null);
@@ -21,6 +21,7 @@ export default function Home() {
   const [filteredTypes,setFilteredTypes] = useState(assests.buildingTypes);
   const [architect,setArchitect] = useState('');
   const [showFilters,setShowFilters] = useState(false)
+  
   useEffect(() => {   //building selected
       if(county){
         dragMenu.current?.setHide(false)

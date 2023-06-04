@@ -67,7 +67,18 @@ export const assests = {
                 rotation: 0,
                 scale: 2,
                 anchor: new google.maps.Point(0, 20),
-            }}
+            }},
+        circlePoint: (color : string) => {
+            return {
+                path: "M10,0A10,10,0,1,0,10,20A10,10,0,1,0,10,0",
+                fillColor: color ,
+                fillOpacity: 1,
+                strokeWeight: 0,
+                rotation: 0,
+                scale: 1,
+                anchor: new google.maps.Point(0, 20),
+            }},
+
     }
 }
 
