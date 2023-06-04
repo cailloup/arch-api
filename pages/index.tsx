@@ -19,6 +19,7 @@ export default function Home() {
   const [searchValue,setSearchValue] = useState<string>("")
   const dragMenu = useRef<DragMenuHandle>(null);
   const [filteredTypes,setFilteredTypes] = useState(assests.buildingTypes);
+  const [architect,setArchitect] = useState('');
   const [showFilters,setShowFilters] = useState(false)
   useEffect(() => {   //building selected
       if(county){
@@ -32,8 +33,8 @@ export default function Home() {
       setSearchValue(e.target.value);
     }, []);
     const filteredBuildings = useMemo(()=>{
-      return buildings?.filter( (building) =>  building.name.toLowerCase().includes(searchValue.toLowerCase()) && filteredTypes.includes(building.type) )
-    },[buildings,filteredTypes,searchValue])
+      return buildings?.filter( (building) => building.architect.toLowerCase().includes(architect) && building.name.toLowerCase().includes(searchValue.toLowerCase()) && filteredTypes.includes(building.type) )
+    },[buildings,filteredTypes,searchValue,architect])
 
   return (
     <>
@@ -53,10 +54,12 @@ export default function Home() {
         <div style={{display:'flex', flexDirection:'column',alignItems: 'flex-start', height:'100%', paddingTop:'25px'}  }>
           {building?<BuildingCard building={building}/>: 
           <>
-            <h2 style={{paddingLeft:'10px'}}>Edificaciones</h2>
-            <Input style={{width:'100%', padding:'10px'}} placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
-            <TextButton style={{marginLeft:'20px', marginTop:'15px', marginBottom:'5px'}} onClick={() => setShowFilters(!showFilters)}>Filtros</TextButton>
-            {showFilters && <BuildingsFilter allTypes={buildings.map(({type}) => type)} filteredTypes={ filteredTypes} setFilteredTypes={setFilteredTypes}/>}
+            <div style={{padding:'25px',width:'100%'}}>
+              <h2>Edificaciones</h2>
+              <Input style={{width:'100%'}} placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
+              <TextButton style={{ marginTop:'15px', marginBottom:'5px'}} onClick={() => setShowFilters(!showFilters)}>Filtros</TextButton>
+              {showFilters && <BuildingsFilter setArchitect={setArchitect} allTypes={buildings.map(({type}) => type)} filteredTypes={ filteredTypes} setFilteredTypes={setFilteredTypes}/>}
+            </div>
             <div style={{ width:'100%', flex: 1,overflowX:'hidden', overflowY:'auto'  }}>
               <Table headers={headers} data={filteredBuildings} selectedData={building} setSelectData={setBuilding} />
             </div>
