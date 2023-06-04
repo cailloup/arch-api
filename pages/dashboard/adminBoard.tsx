@@ -93,7 +93,7 @@ const AdminBoard: React.FC<DashBoardProps> = ({ cleanList,clean,setSelectedBuild
       </div>
 
       <div  className={styles.tableContainer}>   
-        <Table multiselect headers={headers} data={fiteredBuildings} setSelectData={setSelectedBuildings} selectedData={selectedBuildings}/>
+        <Table rounded multiselect headers={headers} data={fiteredBuildings} setSelectData={setSelectedBuildings} selectedData={selectedBuildings}/>
       </div>
     </div>
   )

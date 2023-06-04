@@ -17,9 +17,10 @@ type TableProps = {
     setSelectData: (any: any[] | any | undefined) => void;
     onClick?: (row: any) => void;
     multiselect?: boolean;
+    rounded?: boolean;
 };
 
-function Table({data, selectedData, headers, onClick, multiselect, setSelectData }: TableProps){
+function Table({data, selectedData, headers, onClick, multiselect, setSelectData, rounded }: TableProps){
     const [sortOrder, setSortOrder] = useState<SortOrder>("asc");  
     const [sortColumn, setSortColumn] = useState<keyof TableRow>("");
 
@@ -74,7 +75,7 @@ function Table({data, selectedData, headers, onClick, multiselect, setSelectData
     };
 
     return (
-            <TableStyled className={styles.table}>
+            <TableStyled className={`${styles.table} ${rounded?styles.rounded:''}`}>
                 <thead>
                     <tr className={styles.header}>
                         {headers.map((header) => (

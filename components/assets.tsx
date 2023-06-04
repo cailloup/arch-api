@@ -269,4 +269,10 @@ color:${props => props.theme.secondary};
     `}
 `;
 
+export const TextButton = styled.h3`
+    color:${props => props.theme.primaryContrast};
+    text-decoration:underline;
+    cursor:pointer;
+
+`;
 

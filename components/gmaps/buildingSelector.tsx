@@ -125,15 +125,6 @@ export function BuildingSelector({ ...props }: BuildingSelectorProps) {
                       fillColor: "transparent",
                       fillOpacity: 0,
                     }}/>
-                    { props.buildings && props.buildings.length>1 &&
-                      <div className="referencesContainer" style={{backgroundColor:theme.primary}}>
-                          { buildingTypes.filter(type => getQuantityTypes(type)>0).map( reference => 
-                            <div key={reference} className="reference">
-                              <div onClick={() => toggleType(reference)} className="referencesSquare" style={ {borderColor:assignColor(reference),  backgroundColor: filteredTypes.includes(reference)?assignColor(reference):"transparent"}}>  </div>
-                              <p style={{color: assignColor(reference)}}>{reference}: {getQuantityTypes(reference)}</p>
-                            </div> )
-                          }
-                    </div>}
         </>)
 }
 

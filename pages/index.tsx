@@ -5,10 +5,11 @@ import  { BuildingSelector } from '@/components/gmaps/buildingSelector';
 import { GoogleMap } from '@react-google-maps/api';
 import CountySelector from '@/components/gmaps/countySelector';
 import { County } from '@/components/gmaps/gMapFunctions';
-import { Building, BuildingType, assignColor } from '@/utils/builddingsApi';
+import { Building } from '@/utils/builddingsApi';
 import Table, { Header} from '@/components/table';
-import { Button, Input } from '@/components/assets';
+import { Button, Input, TextButton } from '@/components/assets';
 import { assests } from '@/utils/utils';
+import { BuildingsFilter } from './test';
 
 export default function Home() {
   const screenRef = useRef<HTMLDivElement>(null);
@@ -18,7 +19,7 @@ export default function Home() {
   const [searchValue,setSearchValue] = useState<string>("")
   const dragMenu = useRef<DragMenuHandle>(null);
   const [filteredTypes,setFilteredTypes] = useState(assests.buildingTypes);
-
+  const [showFilters,setShowFilters] = useState(false)
   useEffect(() => {   //building selected
       if(county){
         dragMenu.current?.setHide(false)
@@ -48,11 +49,14 @@ export default function Home() {
         </GoogleMap>
       </div>
       <DragMenu ref={dragMenu} screenRef={screenRef} hidden defaultWidth={40}>
-        {filteredBuildings && 
-        <div style={{display:'flex', flexDirection:'column', height:'100%'}  }>
+        {filteredBuildings && buildings &&
+        <div style={{display:'flex', flexDirection:'column',alignItems: 'flex-start', height:'100%', paddingTop:'25px'}  }>
           {building?<BuildingCard building={building}/>: 
           <>
+            <h2 style={{paddingLeft:'10px'}}>Edificaciones</h2>
             <Input style={{width:'100%', padding:'10px'}} placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
+            <TextButton style={{marginLeft:'20px', marginTop:'15px', marginBottom:'5px'}} onClick={() => setShowFilters(!showFilters)}>Filtros</TextButton>
+            {showFilters && <BuildingsFilter allTypes={buildings.map(({type}) => type)} filteredTypes={ filteredTypes} setFilteredTypes={setFilteredTypes}/>}
             <div style={{ width:'100%', flex: 1,overflowX:'hidden', overflowY:'auto'  }}>
               <Table headers={headers} data={filteredBuildings} selectedData={building} setSelectData={setBuilding} />
             </div>
