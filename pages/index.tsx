@@ -54,11 +54,11 @@ export default function Home() {
         <div style={{display:'flex', flexDirection:'column',alignItems: 'flex-start', height:'100%', paddingTop:'25px'}  }>
           {building?<BuildingCard building={building}/>: 
           <>
-            <div style={{padding:'25px',width:'100%'}}>
+            <div style={{padding:'25px', paddingBottom:'5px',width:'100%'}}>
               <h2>Edificaciones</h2>
               <Input style={{width:'100%'}} placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
               <Button $primary style={{ marginTop:'15px', marginBottom:'5px'}} onClick={() => setShowFilters(!showFilters)}>Filtros</Button>
-              {showFilters && <BuildingsFilter architect={architect} setArchitect={setArchitect} allTypes={buildings.map(({type}) => type)} filteredTypes={ filteredTypes} setFilteredTypes={setFilteredTypes}/>}
+              <BuildingsFilter hide={!showFilters} architect={architect} setArchitect={setArchitect} allTypes={buildings.map(({type}) => type)} filteredTypes={ filteredTypes} setFilteredTypes={setFilteredTypes}/>
             </div>
             <div style={{ width:'100%', flex: 1,overflowX:'hidden', overflowY:'auto'  }}>
               <Table headers={headers} data={filteredBuildings} selectedData={building} setSelectData={setBuilding} />
