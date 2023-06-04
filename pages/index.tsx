@@ -58,7 +58,7 @@ export default function Home() {
               <h2>Edificaciones</h2>
               <Input style={{width:'100%'}} placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
               <TextButton style={{ marginTop:'15px', marginBottom:'5px'}} onClick={() => setShowFilters(!showFilters)}>Filtros</TextButton>
-              {showFilters && <BuildingsFilter setArchitect={setArchitect} allTypes={buildings.map(({type}) => type)} filteredTypes={ filteredTypes} setFilteredTypes={setFilteredTypes}/>}
+              {showFilters && <BuildingsFilter architect={architect} setArchitect={setArchitect} allTypes={buildings.map(({type}) => type)} filteredTypes={ filteredTypes} setFilteredTypes={setFilteredTypes}/>}
             </div>
             <div style={{ width:'100%', flex: 1,overflowX:'hidden', overflowY:'auto'  }}>
               <Table headers={headers} data={filteredBuildings} selectedData={building} setSelectData={setBuilding} />

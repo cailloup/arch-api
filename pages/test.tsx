@@ -11,8 +11,9 @@ type BuildingFilterProps = {
   setFilteredTypes: any;
   allTypes:any;
   setArchitect:any;
+  architect:string;
 }
-export const BuildingsFilter: React.FC<BuildingFilterProps> = ({filteredTypes, setFilteredTypes,allTypes,setArchitect}) => {
+export const BuildingsFilter: React.FC<BuildingFilterProps> = ({filteredTypes, setFilteredTypes,allTypes,setArchitect,architect}) => {
   
   function  getQuantityTypes(buildingType:BuildingType){
     let count = 0;
@@ -46,7 +47,7 @@ export const BuildingsFilter: React.FC<BuildingFilterProps> = ({filteredTypes, s
                 )}
         </div>
         <h3>Arquitecto</h3>
-        <Input onChange={(e:ChangeEvent<HTMLInputElement>) =>setArchitect(e.currentTarget.value)} placeholder='Ingrese nombre del arquitecto'/>
+        <Input defaultValue={architect} onChange={(e:ChangeEvent<HTMLInputElement>) =>setArchitect(e.currentTarget.value)} placeholder='Ingrese nombre del arquitecto'/>
     </div>
   );
 };
