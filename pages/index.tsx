@@ -9,7 +9,7 @@ import { Building } from '@/utils/builddingsApi';
 import Table, { Header} from '@/components/table';
 import { Button, Input, TextButton } from '@/components/assets';
 import { assests } from '@/utils/utils';
-import { BuildingsFilter } from './test';
+import { BuildingsFilter } from '../components/test';
 
 export default function Home() {
   const screenRef = useRef<HTMLDivElement>(null);
@@ -57,7 +57,7 @@ export default function Home() {
             <div style={{padding:'25px',width:'100%'}}>
               <h2>Edificaciones</h2>
               <Input style={{width:'100%'}} placeholder='Ingrese nombre del edificio' onChange={handleInputChange}/>
-              <TextButton style={{ marginTop:'15px', marginBottom:'5px'}} onClick={() => setShowFilters(!showFilters)}>Filtros</TextButton>
+              <Button $primary style={{ marginTop:'15px', marginBottom:'5px'}} onClick={() => setShowFilters(!showFilters)}>Filtros</Button>
               {showFilters && <BuildingsFilter architect={architect} setArchitect={setArchitect} allTypes={buildings.map(({type}) => type)} filteredTypes={ filteredTypes} setFilteredTypes={setFilteredTypes}/>}
             </div>
             <div style={{ width:'100%', flex: 1,overflowX:'hidden', overflowY:'auto'  }}>
