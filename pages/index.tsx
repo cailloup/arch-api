@@ -22,13 +22,13 @@ export default function Home() {
   const [architect,setArchitect] = useState('');
   const [showFilters,setShowFilters] = useState(false)
   
-  useEffect(() => {   //building selected
-      if(county){
-        dragMenu.current?.setHide(false)
-      }else{
-        dragMenu.current?.setHide(true)
-      }
-    }, [county]); 
+  useEffect(() => {
+    const shouldHide = county === null ||  (county != null && building != null);
+    console.log(county);
+    console.log(building);
+    dragMenu.current?.setHide(shouldHide);
+
+  }, [county, building]);
 
     const handleInputChange = useCallback((e:ChangeEvent<HTMLInputElement>) => {
       setSearchValue(e.target.value);
@@ -46,6 +46,21 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div ref={screenRef} style={{  width:'60%', height:'100%', position:'absolute'}}>
+        {building &&
+          <div className='containerb'> 
+              <img src={building.image} alt={building.name} />
+              <div>
+                <h1>{building.name}</h1>
+                <p>Año: {building.builtDate}</p>
+                <p>Constructor: {building.architect}</p>
+                <p>Ubicacion: {building.address}</p>
+                <p>Estilo: {building.style}</p>
+                <p>Tipo: {building.type}</p>
+                <p>Epoca: {building.period}</p>
+                <p>Proteccion: {building.isProtected.info}</p>
+              </div>
+          </div>
+        }
         <GoogleMap mapContainerStyle={{width: "100%", height: "100%"}}>
           {county==null?<CountySelector setCounty={setCounty}/>:<BuildingSelector setFilteredTypes={setFilteredTypes} building={building} buildings={filteredBuildings} setBuildings={setBuildings} scapeDown={() => {setCounty(null); setBuilding(null) } } setBuilding={setBuilding}  selectedCounty={county}/>}
         </GoogleMap>
